@@ -22,7 +22,7 @@ export default function Search() {
 
   // Searches for the data
   async function search(text: string) {
-    const { data } = await axios.get(`${apiURL}/lastfm/songs`, {
+    const { data } = await axios.get(`${apiURL}/lastfm/albums`, {
       params: {
         search: text,
       },

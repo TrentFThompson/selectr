@@ -51,16 +51,19 @@ export async function searchAlbums(
   searchText: string | string[],
   limit: number = DEFAULT_LIMIT
 ) {
-  //
-  const { data } = await axios.get(lastFmURL, {
-    params: {
-      method: "album.search",
-      album: searchText,
-      api_key: process.env.LAST_FM_KEY,
-      format: "json",
-      limit: limit >= MAX_LIMIT ? MAX_LIMIT : limit, // Don't allow limit over 25
-    },
-  });
+  try {
+    const { data } = await axios.get(lastFmURL, {
+      params: {
+        method: "album.search",
+        album: searchText,
+        api_key: process.env.LAST_FM_KEY,
+        format: "json",
+        limit: limit >= MAX_LIMIT ? MAX_LIMIT : limit, // Don't allow limit over 25
+      },
+    });
 
-  return data.results?.albummatches?.album || [];
+    return data.results?.albummatches?.album || [];
+  } catch {
+    return [];
+  }
 }
