@@ -7,7 +7,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Custom imports
-import lastFm from "@/utils/api/lastfm";
+import lastFm from "@/utils/server/lastfm";
 
 //
 //  Function:     handler

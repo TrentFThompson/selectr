@@ -6,12 +6,19 @@
 // Installed imports
 import type { NextPage } from "next";
 
+// Custom imports
+import Search from "@/components/search";
+
 //
 //  Component:    Home
 //  Description:  Index page of the system
 //
 const Home: NextPage = () => {
-  return <div></div>;
+  return (
+    <>
+      <Search />
+    </>
+  );
 };
 
 export default Home;
