@@ -1,9 +1,10 @@
 //
-//  File: index.ts
-//  Description: Index file to export the lastfm methods
+//  File:         index.ts
+//  Description:  Index file to export the lastfm methods
 //
 
 // Custom imports
-import search from "./search";
+import { searchAlbums, searchTracks } from "./search";
+import { albumInfo } from "./info";
 
-export default { search };
+export default { searchTracks, searchAlbums, albumInfo };

@@ -1,6 +1,6 @@
 //
-//  File: _app.tsx
-//  Description: Exports the entrypoint to the application
+//  File:         _app.tsx
+//  Description:  Exports the entrypoint to the application
 //
 
 // Installed imports

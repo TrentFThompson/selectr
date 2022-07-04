@@ -34,7 +34,11 @@ export default function Search() {
   return (
     <>
       <Container w="container.xl" flexDirection={"column"}>
-        <Input h={"10"} onChange={(e) => search(e.target.value)} />
+        <Input
+          placeholder="e.g. Warren Zevon"
+          h={"10"}
+          onChange={(e) => search(e.target.value)}
+        />
         <Flex flexDirection={"column"}>
           {results.map((song) => (
             <SearchResult

@@ -1,6 +1,6 @@
 //
-//  File:         songs.ts
-//  Description:  Exports the handler for the lastfm/songs api route
+//  File:         info.ts
+//  Description:  Exports the handler for the lastfm/albums/info api route
 //
 
 // Installed imports
@@ -33,12 +33,12 @@ export default async function handler(
 
 //
 //  Function:     get
-//  Description:  handles facilitating get requests
+//  Description:  handles facilitating the get request
 //  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
-//  Returns:      Array of songs, potentially 0 length
+//  Returns:      info of an album
 //
 async function get(req: NextApiRequest, res: NextApiResponse) {
-  const { search = "" } = req.query;
-  return res.status(200).json(await lastFm.searchTracks(search));
+  const { artist = "", album = "" } = req.query;
+  return res.status(200).json(await lastFm.albumInfo(artist, album));
 }
