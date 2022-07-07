@@ -7,9 +7,11 @@
 import { z } from "zod";
 
 // Setlist creation request schema
-const create = z.object({
-  name: z.string(),
-});
+const create = z
+  .object({
+    name: z.string(),
+  })
+  .strict();
 
 export { create };
 export default { create };
