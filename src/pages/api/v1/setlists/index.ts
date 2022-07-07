@@ -45,7 +45,7 @@ export default async function handler(
 //  Description:  handles facilitating get requests
 //  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
-//  Returns:
+//  Returns:      the list of setlists in the database
 //
 async function get(req: NextApiRequest, res: NextApiResponse) {
   return res.status(200).json(await db.findAll(Collections.Setlists));
@@ -56,7 +56,7 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 //  Description:  handles facilitating post requests
 //  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
-//  Returns:
+//  Returns:      the newly inserted setlist
 //
 async function post(req: NextApiRequest, res: NextApiResponse) {
   // Validate the request and insert into the setlist collection
