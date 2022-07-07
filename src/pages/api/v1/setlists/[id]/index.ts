@@ -44,7 +44,7 @@ export default async function handler(
 //  Description:  handles facilitating get requests
 //  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
-//  Returns:
+//  Returns:      the requested document
 //
 async function get(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
@@ -56,7 +56,7 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 //  Description:  handles facilitating delete requests
 //  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
-//  Returns:
+//  Returns:      204 response (no body)
 //
 async function _delete(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
