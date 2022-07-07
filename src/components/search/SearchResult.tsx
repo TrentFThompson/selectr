@@ -1,5 +1,5 @@
 //
-//  File:         SearchResult
+//  File:         SearchResult.tsx
 //  Description:  Export the SearchResult component
 //
 
