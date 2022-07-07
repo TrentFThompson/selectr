@@ -28,7 +28,17 @@ export async function albumInfo(mbid: string | string[]) {
       },
     });
 
-    return data;
+    // Standardize the data the way our database wants it
+    return {
+      mbid,
+      artist: data.album.artist,
+      tracks: data.album.tracks.track.map((t: any) => ({
+        rank: t["@attr"].rank,
+        name: t.name,
+      })),
+      name: data.album.name,
+      image: data.album.image.find((i: any) => i.size === "large")["#text"], // Take the large image for display
+    };
   } catch (error: any) {
     if (error?.response?.status === 404) {
       throw new NotFoundError("Album");

@@ -5,6 +5,7 @@
 
 // Installed imports
 import { Box, Text } from "@chakra-ui/react";
+import Link from "next/link";
 
 //
 //  Component:    SearchResult
@@ -13,14 +14,18 @@ import { Box, Text } from "@chakra-ui/react";
 export default function SearchResult({
   title,
   subtitle,
+  mbid,
 }: {
   title: string;
   subtitle: string;
+  mbid: string;
 }) {
   return (
-    <Box boxShadow={"md"} borderRadius={"md"} p="1" pl="2">
-      <Text>{title}</Text>
-      <Text opacity={"70%"}>{subtitle}</Text>
-    </Box>
+    <Link href={`/albums/${mbid}`}>
+      <Box cursor={"pointer"} boxShadow={"md"} borderRadius={"md"} p="1" pl="2">
+        <Text>{title}</Text>
+        <Text opacity={"70%"}>{subtitle}</Text>
+      </Box>
+    </Link>
   );
 }
