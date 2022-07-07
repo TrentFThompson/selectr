@@ -1,5 +1,5 @@
 //
-//  File:         index.tsx
+//  File:         pages/index.tsx
 //  Description:  Exports the / page of the application
 //
 
