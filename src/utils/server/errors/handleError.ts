@@ -6,6 +6,7 @@
 // Installed imports
 import { HttpError } from "@/utils/http/errors";
 import { NextApiResponse } from "next";
+import { ZodError } from "zod";
 
 //
 //  Function:     handleError
@@ -18,6 +19,10 @@ export default function handleError(error: Error, res: NextApiResponse) {
   // Check if our error conforms to our standard
   if (error instanceof HttpError) {
     return res.status(error.status).json({ message: error.message });
+  }
+  // Otherwise check if it's a schema error
+  else if (error instanceof ZodError) {
+    return res.status(400).json(error);
   }
 
   // If not return a standardized 500 error
