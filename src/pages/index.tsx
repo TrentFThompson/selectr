@@ -21,9 +21,7 @@ const Home: NextPage = () => {
       <Header />
       <Center pt="10" flexDirection={"column"}>
         <Heading>Album Search</Heading>
-        <Text pb="5">
-          Search for albums to begin adding to your collection.
-        </Text>
+        <Text pb="5">Search for albums to begin adding to your setlists.</Text>
         <Search />
       </Center>
     </>
