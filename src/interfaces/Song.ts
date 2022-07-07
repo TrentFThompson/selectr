@@ -3,7 +3,7 @@
 //  Description:  Exports the interface for a song object
 //
 
-export default interface Song {
+export default interface ISong {
   name: string;
   artist: string;
 }

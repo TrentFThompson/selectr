@@ -11,14 +11,14 @@ import { Container, Flex, Input } from "@chakra-ui/react";
 //Custom imports
 import { apiURL } from "@/utils/url";
 import SearchResult from "./SearchResult";
-import Album from "@/interfaces/Album";
+import IAlbum from "@/interfaces/Album";
 
 //
 //  Component:    Search
 //  Description:  Searches for a list of songs based on lastfm
 //
 export default function Search() {
-  const [results, setResults] = useState<Album[]>([]);
+  const [results, setResults] = useState<IAlbum[]>([]);
 
   // Searches for the data
   async function search(text: string) {
