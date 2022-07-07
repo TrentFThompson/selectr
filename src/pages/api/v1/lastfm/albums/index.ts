@@ -1,5 +1,5 @@
 //
-//  File:         index.ts
+//  File:         albums/index.ts
 //  Description:  Exports the handler for the lastfm/albums api route
 //
 

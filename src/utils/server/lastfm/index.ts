@@ -1,5 +1,5 @@
 //
-//  File:         index.ts
+//  File:         lastfm/index.ts
 //  Description:  Index file to export the lastfm methods
 //
 
