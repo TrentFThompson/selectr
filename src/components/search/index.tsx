@@ -1,5 +1,5 @@
 //
-//  File:         index.tsx
+//  File:         Search/index.tsx
 //  Description:  exports the Search component
 //
 
@@ -15,7 +15,7 @@ import IAlbum from "@/interfaces/Album";
 
 //
 //  Component:    Search
-//  Description:  Searches for a list of songs based on lastfm
+//  Description:  Searches for a list of albums based on lastfm
 //
 export default function Search() {
   const [results, setResults] = useState<IAlbum[]>([]);
@@ -40,11 +40,12 @@ export default function Search() {
           onChange={(e) => search(e.target.value)}
         />
         <Flex flexDirection={"column"}>
-          {results.map((song) => (
+          {results.map((album) => (
             <SearchResult
-              title={song.name}
-              subtitle={song.artist}
-              key={`${song.artist}-${song.name}`}
+              title={album.name}
+              subtitle={album.artist}
+              key={`${album.artist}-${album.name}`}
+              mbid={album.mbid}
             />
           ))}
         </Flex>
