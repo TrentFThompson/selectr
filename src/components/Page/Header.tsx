@@ -4,7 +4,8 @@
 //
 
 // Installed imports
-import { Box, Center, Heading } from "@chakra-ui/react";
+import { Box, Center, Heading, Flex } from "@chakra-ui/react";
+import Link from "next/link";
 
 //
 //  Component:    Header
@@ -16,6 +17,16 @@ export default function Header() {
       <Center>
         <Heading>Selectr</Heading>
       </Center>
+      <Box w="container.sm">
+        <Flex flexDirection={"row"} justify="space-around">
+          <Link href={"/"}>
+            <a>Home</a>
+          </Link>
+          <Link href={"/setlists"}>
+            <a>Setlists</a>
+          </Link>
+        </Flex>
+      </Box>
     </Box>
   );
 }
