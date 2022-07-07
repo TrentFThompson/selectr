@@ -16,16 +16,12 @@ import { lastFmURL } from "@/utils/url";
 //                album: string - the album name
 //  Returns:      Object
 //
-export async function albumInfo(
-  artist: string | string[],
-  album: string | string[]
-) {
+export async function albumInfo(mbid: string | string[]) {
   try {
     const { data } = await axios.get(lastFmURL, {
       params: {
         method: "album.getinfo",
-        artist,
-        album,
+        mbid,
         api_key: process.env.LAST_FM_KEY,
         format: "json",
       },

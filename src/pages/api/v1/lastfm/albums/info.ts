@@ -39,6 +39,6 @@ export default async function handler(
 //  Returns:      info of an album
 //
 async function get(req: NextApiRequest, res: NextApiResponse) {
-  const { artist = "", album = "" } = req.query;
-  return res.status(200).json(await lastFm.albumInfo(artist, album));
+  const { mbid = "" } = req.query;
+  return res.status(200).json(await lastFm.albumInfo(mbid));
 }
