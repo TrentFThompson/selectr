@@ -8,8 +8,11 @@ import { HttpError } from "@/utils/http/errors";
 import { NextApiResponse } from "next";
 
 //
-//  function:     handleError
+//  Function:     handleError
 //  Description:  Handles sending error responses from the express server
+//  Params:       error: Error - the error to handle
+//                res: NextApiResponse - the object to send a response with
+//  Returns:      Handles sending status and json with error message
 //
 export default function handleError(error: Error, res: NextApiResponse) {
   // Check if our error conforms to our standard
