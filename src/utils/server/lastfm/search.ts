@@ -21,23 +21,22 @@ const DEFAULT_LIMIT = 10;
 //                limit: number - the limit for search results
 //  Returns:      Array of songs, potentially 0 length
 //
-export async function searchTracks(
-  searchText: string | string[],
-  limit: number = DEFAULT_LIMIT
-) {
-  //
-  const { data } = await axios.get(lastFmURL, {
-    params: {
-      method: "track.search",
-      track: searchText,
-      api_key: process.env.LAST_FM_KEY,
-      format: "json",
-      limit: limit >= MAX_LIMIT ? MAX_LIMIT : limit, // Don't allow limit over 25
-    },
-  });
+// export async function searchTracks(
+//   searchText: string | string[],
+//   limit: number = DEFAULT_LIMIT
+// ) {
+//   const { data } = await axios.get(lastFmURL, {
+//     params: {
+//       method: "track.search",
+//       track: searchText,
+//       api_key: process.env.LAST_FM_KEY,
+//       format: "json",
+//       limit: limit >= MAX_LIMIT ? MAX_LIMIT : limit, // Don't allow limit over 25
+//     },
+//   });
 
-  return data.results?.trackmatches?.track || [];
-}
+//   return data.results?.trackmatches?.track || [];
+// }
 
 //
 //  Function:     searchAlbums

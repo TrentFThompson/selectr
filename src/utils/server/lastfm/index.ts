@@ -4,7 +4,7 @@
 //
 
 // Custom imports
-import { searchAlbums, searchTracks } from "./search";
+import { searchAlbums } from "./search";
 import { albumInfo } from "./info";
 
-export default { searchTracks, searchAlbums, albumInfo };
+export default { searchAlbums, albumInfo };
