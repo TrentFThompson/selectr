@@ -8,6 +8,7 @@ import axios from "axios";
 
 // Custom imports
 import { lastFmURL } from "@/utils/url";
+import { NotFoundError, ServerError } from "@/utils/http/errors";
 
 //
 //  Function:     albumInfo
@@ -28,7 +29,11 @@ export async function albumInfo(mbid: string | string[]) {
     });
 
     return data;
-  } catch {
-    return { message: "Error finding album." };
+  } catch (error: any) {
+    if (error?.response?.status === 404) {
+      throw new NotFoundError("Album");
+    } else {
+      throw new ServerError();
+    }
   }
 }

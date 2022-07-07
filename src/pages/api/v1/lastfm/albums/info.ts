@@ -8,6 +8,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 // Custom imports
 import lastFm from "@/utils/server/lastfm";
+import handleError from "@/utils/server/errors/handleError";
+import { BadRequestError } from "@/utils/http/errors";
 
 //
 //  Function:     handler
@@ -19,15 +21,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  switch (req.method) {
-    case "GET": {
-      return await get(req, res);
+  try {
+    switch (req.method) {
+      case "GET": {
+        return await get(req, res);
+      }
+      default: {
+        throw new BadRequestError("Method not implemented");
+      }
     }
-    default: {
-      return res
-        .status(400)
-        .json({ message: "Bad request. Method not implemented." });
-    }
+  } catch (error: any) {
+    return handleError(error, res);
   }
 }
 
