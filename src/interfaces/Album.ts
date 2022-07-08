@@ -4,12 +4,12 @@
 //
 
 // Custom imports
-import ITrack from "./Track";
+import IAlbumTrack from "./AlbumTrack";
 
 export default interface IAlbum {
   name: string;
   artist: string;
   mbid: string;
-  tracks: { name: string; rank: number }[];
+  tracks: IAlbumTrack[];
   image: string;
 }

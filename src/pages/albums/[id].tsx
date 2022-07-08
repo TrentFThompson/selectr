@@ -12,7 +12,7 @@ import { Heading, Text, Image, Box } from "@chakra-ui/react";
 // Custom imports
 import { apiURL } from "@/utils/url";
 import IAlbum from "@/interfaces/Album";
-import ITrack from "@/interfaces/Track";
+import IAlbumTrack from "@/interfaces/AlbumTrack";
 
 // Props
 interface IProps {
@@ -57,7 +57,7 @@ function AlbumImage({ image }: { image: string | undefined }) {
   );
 }
 
-function TrackList({ tracks }: { tracks: ITrack[] | undefined }) {
+function TrackList({ tracks }: { tracks: IAlbumTrack[] | undefined }) {
   if (!tracks) {
     return <Text>Track list not available.</Text>;
   }

@@ -5,7 +5,7 @@
 
 export default interface ITrack {
   name: string;
-  rank: number;
   artist: string;
   album: string;
+  id: string;
 }
