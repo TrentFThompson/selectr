@@ -10,6 +10,6 @@ export default interface IAlbum {
   name: string;
   artist: string;
   mbid: string;
-  tracks?: ITrack[];
-  image?: string;
+  tracks: ITrack[];
+  image: string;
 }
