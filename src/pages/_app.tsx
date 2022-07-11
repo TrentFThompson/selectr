@@ -7,6 +7,9 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 
+// Custom imports
+import { MessageProvider } from "@/context/message-context";
+
 //
 //  Component:    MyApp
 //  Description:  Entrypoint to the system
@@ -14,7 +17,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <Component {...pageProps} />
+      <MessageProvider>
+        <Component {...pageProps} />
+      </MessageProvider>
     </ChakraProvider>
   );
 }
