@@ -5,13 +5,13 @@
 
 // Installed imports
 import type { NextPage } from "next";
+import { Center, Heading, Text } from "@chakra-ui/react";
 
 // Custom imports
 import Search from "@/components/Search";
 import Header from "@/components/Page/Header";
-import { Center, Heading, Text } from "@chakra-ui/react";
 import AlbumSearchResult from "@/components/Search/SearchResults/AlbumSearchResult";
-import albums from "@/api/albums";
+import AlbumApi from "@/api/albums";
 import { useMessage } from "@/context/message-context";
 
 //
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
   //
   async function search(value: string) {
     try {
-      return await albums.search(value);
+      return await AlbumApi.search(value);
     } catch (error: any) {
       failure(error.message);
       return [];
