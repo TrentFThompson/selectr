@@ -7,7 +7,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Custom imports
-import { BadRequestError } from "@/server/errors";
+import { BadRequestError, NotFoundError } from "@/server/errors";
 import handleError from "@/server/errors/handleError";
 import db from "@/database/index";
 import { Collections } from "@/database/collections";
@@ -48,6 +48,12 @@ export default async function handler(
 //
 async function get(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
+
+  // Fix for type issues for now
+  if (!id || Array.isArray(id)) {
+    throw new NotFoundError("Setlist");
+  }
+
   return res.status(200).json(await db.find(Collections.Setlists, id));
 }
 
@@ -60,5 +66,11 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 //
 async function _delete(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
+
+  // Fix for type issues for now
+  if (!id || Array.isArray(id)) {
+    throw new NotFoundError("Setlist");
+  }
+
   return res.status(204).json(await db.remove(Collections.Setlists, id));
 }

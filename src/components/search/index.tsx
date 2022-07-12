@@ -44,8 +44,8 @@ export default function Search<T>({
           onChange={(e) => onChange(e.target.value)}
         />
         <Flex flexDirection={"column"}>
-          {results.map((r) => (
-            <SearchResult result={r} />
+          {results.map((r, i) => (
+            <SearchResult key={i} result={r} />
           ))}
         </Flex>
       </Container>

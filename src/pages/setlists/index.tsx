@@ -46,7 +46,7 @@ function SetlistList({ setlists }: { setlists: ISetlist[] }) {
     <>
       {setlists.map((s) => {
         return (
-          <Link href={`/setlists/${s.id}`}>
+          <Link key={s.id} href={`/setlists/${s.id}`}>
             <a>{s.name}</a>
           </Link>
         );

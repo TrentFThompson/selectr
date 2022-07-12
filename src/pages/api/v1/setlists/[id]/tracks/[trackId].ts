@@ -7,7 +7,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Custom imports
-import { BadRequestError } from "@/server/errors";
+import { BadRequestError, NotFoundError } from "@/server/errors";
 import handleError from "@/server/errors/handleError";
 import db from "@/database/index";
 import { Collections } from "@/database/collections";
@@ -45,6 +45,12 @@ export default async function handler(
 //
 async function _delete(req: NextApiRequest, res: NextApiResponse) {
   const { id, trackId } = req.query;
+
+  // Fix for type issues for now
+  if (!trackId || Array.isArray(trackId)) {
+    throw new NotFoundError("Track");
+  }
+
   return res
     .status(204)
     .json(

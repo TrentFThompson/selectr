@@ -52,7 +52,7 @@ function AlbumImage({ image }: { image: string | undefined }) {
 
   return (
     <Box boxSize={"sm"}>
-      <Image src={image} />
+      <Image src={image} alt="" />
     </Box>
   );
 }
