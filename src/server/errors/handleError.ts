@@ -4,7 +4,7 @@
 //
 
 // Installed imports
-import { HttpError } from "@/utils/http/errors";
+import { HttpError } from "server/errors";
 import { NextApiResponse } from "next";
 import { ZodError } from "zod";
 

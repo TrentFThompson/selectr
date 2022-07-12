@@ -8,7 +8,7 @@ import axios from "axios";
 
 // Custom imports
 import { lastFmURL } from "@/utils/url";
-import { NotFoundError, ServerError } from "@/utils/http/errors";
+import { NotFoundError, ServerError } from "server/errors";
 
 //
 //  Function:     albumInfo

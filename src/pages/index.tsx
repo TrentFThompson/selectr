@@ -15,7 +15,6 @@ import AlbumSearchResult from "@/components/Search/SearchResults/AlbumSearchResu
 // For testing purposes (to be moved later)
 import axios from "axios";
 import { apiURL } from "@/utils/url";
-
 async function searchAlbums(search: string) {
   const { data } = await axios.get(`${apiURL}/lastfm/albums`, {
     params: {

@@ -7,9 +7,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Custom imports
-import lastFm from "@/utils/server/lastfm";
-import handleError from "@/utils/server/errors/handleError";
-import { BadRequestError } from "@/utils/http/errors";
+import lastFm from "server/lastfm";
+import handleError from "server/errors/handleError";
+import { BadRequestError } from "server/errors";
 
 //
 //  Function:     handler
