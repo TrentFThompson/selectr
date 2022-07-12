@@ -4,49 +4,48 @@
 //
 
 //Installed imports
-import axios from "axios";
 import { useState } from "react";
 import { Container, Flex, Input } from "@chakra-ui/react";
 
-//Custom imports
-import { apiURL } from "@/utils/url";
-import SearchResult from "./SearchResult";
-import IAlbum from "@/interfaces/Album";
+// Interface for the search component props
+interface IProps<T> {
+  search: (search: string) => Promise<T[]>;
+  SearchResult: React.FC<{ result: T }>;
+  placeholder: string;
+}
 
 //
 //  Component:    Search
-//  Description:  Searches for a list of albums based on lastfm
+//  Description:  A generic search component
 //
-export default function Search() {
-  const [results, setResults] = useState<IAlbum[]>([]);
+export default function Search<T>({
+  search,
+  SearchResult,
+  placeholder,
+}: IProps<T>) {
+  const [results, setResults] = useState<T[]>([]);
 
-  // Searches for the data
-  async function search(text: string) {
-    const { data } = await axios.get(`${apiURL}/lastfm/albums`, {
-      params: {
-        search: text,
-      },
-    });
-
-    setResults(data);
+  //
+  //  Function:     onChange
+  //  Description:  Searches for new data when the textbox changes
+  //  Params:       value: string - the search value
+  //  Returns:      N/A
+  //
+  async function onChange(value: string) {
+    setResults(await search(value));
   }
 
   return (
     <>
       <Container w="container.xl" flexDirection={"column"}>
         <Input
-          placeholder="e.g. Warren Zevon"
+          placeholder={placeholder}
           h={"10"}
-          onChange={(e) => search(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
         />
         <Flex flexDirection={"column"}>
-          {results.map((album) => (
-            <SearchResult
-              title={album.name}
-              subtitle={album.artist}
-              key={`${album.artist}-${album.name}`}
-              mbid={album.mbid}
-            />
+          {results.map((r) => (
+            <SearchResult result={r} />
           ))}
         </Flex>
       </Container>
