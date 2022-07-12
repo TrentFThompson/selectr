@@ -1,6 +1,6 @@
 //
-//  File:         SearchResult.tsx
-//  Description:  Export the SearchResult component
+//  File:         AlbumSearchResult.tsx
+//  Description:  Exports the AlbumSearchResult component
 //
 
 // Installed imports
@@ -14,10 +14,10 @@ interface IProps {
 }
 
 //
-//  Component:    SearchResult
-//  Description:  Displays a search result
+//  Component:    AlbumSearchResult
+//  Description:  Displays a search result of an album list
 //
-export default function SearchResult({ result }: IProps) {
+export default function AlbumSearchResult({ result }: IProps) {
   const { mbid, artist, name } = result;
 
   return (
