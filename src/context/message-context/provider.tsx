@@ -6,6 +6,7 @@
 
 // Installed imports
 import { useToast } from "@chakra-ui/react";
+import { useState } from "react";
 
 // Custom imports
 import MessageContext from "./initial-contex";
@@ -13,7 +14,7 @@ import MessageContext from "./initial-contex";
 // Constants
 const TEN_SECONDS = 10000;
 const DEFAULT_TOAST = {
-  isClosable: true,
+  isClosable: false,
   duration: TEN_SECONDS,
 };
 
@@ -28,6 +29,7 @@ interface IProps {
 //
 function MessageProvider({ children }: IProps) {
   const toast = useToast();
+  const [messageState, setMessage] = useState("");
 
   //
   // Function:    success
@@ -36,11 +38,7 @@ function MessageProvider({ children }: IProps) {
   // Returns:     n/a
   //
   function success(message: string) {
-    toast({
-      ...DEFAULT_TOAST,
-      title: message,
-      status: "success",
-    });
+    show(message, "success");
   }
 
   //
@@ -50,11 +48,41 @@ function MessageProvider({ children }: IProps) {
   // Returns:     n/a
   //
   function failure(message: string) {
-    toast({
-      ...DEFAULT_TOAST,
-      title: message,
-      status: "error",
-    });
+    show(message, "error");
+  }
+
+  //
+  // Function:    shouldShowMessage
+  // Description: Determines if we should show a message
+  //              preference is to not show same message in new toast
+  // Parameters:  message: string - the message to check
+  // Returns:     boolean - true if should show, false if not
+  //
+  function shouldShowMessage(message: string) {
+    return message !== messageState;
+  }
+
+  //
+  // Function:    show
+  // Description: Closes existing toast and shows a new one
+  // Parameters:  title: string - the message to show
+  //              status: "error" | "success" - the status of the toast
+  // Returns:     n/a
+  //
+  function show(title: string, status: "error" | "success") {
+    // Check if we should show the message
+    if (shouldShowMessage(title)) {
+      // Close old and show new message
+      toast.closeAll();
+      setMessage(title);
+      toast({
+        ...DEFAULT_TOAST,
+        title,
+        status,
+        // Be sure to reset message state when current closes
+        onCloseComplete: () => setMessage(""),
+      });
+    }
   }
 
   return (
