@@ -11,25 +11,32 @@ import Search from "@/components/Search";
 import Header from "@/components/Page/Header";
 import { Center, Heading, Text } from "@chakra-ui/react";
 import AlbumSearchResult from "@/components/Search/SearchResults/AlbumSearchResult";
-
-// For testing purposes (to be moved later)
-import axios from "axios";
-import { apiURL } from "@/utils/url";
-async function searchAlbums(search: string) {
-  const { data } = await axios.get(`${apiURL}/lastfm/albums`, {
-    params: {
-      search,
-    },
-  });
-
-  return data;
-}
+import albums from "@/api/albums";
+import { useMessage } from "@/context/message-context";
 
 //
 //  Component:    Home
 //  Description:  Index page of the system
 //
 const Home: NextPage = () => {
+  const { failure } = useMessage();
+
+  //
+  // Function:    search
+  // Description: Describes how the frontend should react
+  //              if albums are found, or if there is an error
+  // Parameters:  value: string - the value to search with
+  // Returns:     array of albums or empty on error
+  //
+  async function search(value: string) {
+    try {
+      return await albums.search(value);
+    } catch (error: any) {
+      failure(error.message);
+      return [];
+    }
+  }
+
   return (
     <>
       <Header />
@@ -37,7 +44,7 @@ const Home: NextPage = () => {
         <Heading>Album Search</Heading>
         <Text pb="5">Search for albums to begin adding to your setlists.</Text>
         <Search
-          search={searchAlbums}
+          search={search}
           SearchResult={AlbumSearchResult}
           placeholder="e.g. Warren Zevon"
         />
