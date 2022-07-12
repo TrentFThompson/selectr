@@ -7,8 +7,10 @@
 import { Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
+// Custom imports
 import IAlbum from "@/interfaces/Album";
 
+// Component props
 interface IProps {
   result: IAlbum;
 }
