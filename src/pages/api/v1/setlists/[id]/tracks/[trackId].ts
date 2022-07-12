@@ -7,10 +7,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Custom imports
-import { BadRequestError } from "server/errors";
-import handleError from "server/errors/handleError";
-import db from "database";
-import { Collections } from "database/collections";
+import { BadRequestError } from "@/server/errors";
+import handleError from "@/server/errors/handleError";
+import db from "@/database/index";
+import { Collections } from "@/database/collections";
 
 //
 //  Function:     handler

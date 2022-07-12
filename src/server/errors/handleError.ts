@@ -4,9 +4,11 @@
 //
 
 // Installed imports
-import { HttpError } from "server/errors";
 import { NextApiResponse } from "next";
 import { ZodError } from "zod";
+
+// Custom imports
+import { HttpError } from "@/server/errors";
 
 //
 //  Function:     handleError

@@ -4,7 +4,6 @@
 //
 
 // Installed imports
-import Header from "@/components/Page/Header";
 import type { NextPage, GetServerSidePropsContext } from "next";
 import axios from "axios";
 import { Heading, Text, Image, Box } from "@chakra-ui/react";
@@ -13,6 +12,7 @@ import { Heading, Text, Image, Box } from "@chakra-ui/react";
 import { apiURL } from "@/utils/url";
 import IAlbum from "@/interfaces/Album";
 import IAlbumTrack from "@/interfaces/AlbumTrack";
+import Header from "@/components/Page/Header";
 
 // Props
 interface IProps {
