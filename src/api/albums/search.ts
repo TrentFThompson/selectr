@@ -11,7 +11,7 @@ import { apiURL } from "@/utils/url";
 //
 // Function:    search
 // Description: Search the albums in the lastfm database
-// Parameters:  serach: string - the string to search with
+// Parameters:  search: string - the string to search with
 // Returns:     the list of albums found
 //
 export default async function search(search: string) {
