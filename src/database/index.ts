@@ -5,10 +5,10 @@
 
 // Installed imports
 import { firestore as db } from "@/lib/firebase-admin";
-import { NotFoundError } from "../server/errors";
 
 // Custom imports
 import createId from "./createId";
+import { NotFoundError } from "@/server/errors";
 
 //
 //  Function:     insert
