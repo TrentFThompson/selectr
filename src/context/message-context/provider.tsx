@@ -1,12 +1,14 @@
 //
-//  File:         message-context.ts
-//  Description:  Exports the functions and components required
-//                to use the message display system
+//  File:         provider.ts
+//  Description:  Exports the provider component for the message
+//                system
 //
 
 // Installed imports
-import { useContext, createContext } from "react";
 import { useToast } from "@chakra-ui/react";
+
+// Custom imports
+import MessageContext from "./initial-contex";
 
 // Constants
 const TEN_SECONDS = 10000;
@@ -15,27 +17,16 @@ const DEFAULT_TOAST = {
   duration: TEN_SECONDS,
 };
 
-// Define the context for the message system
-interface IMessageContext {
-  success: (message: string) => void;
-  failure: (message: string) => void;
+// Props for message provider
+interface IProps {
+  children: JSX.Element;
 }
-
-// Create the initial message system context
-const MessageContext = createContext<IMessageContext>({
-  success: (_) => {
-    return;
-  },
-  failure: (_) => {
-    return;
-  },
-});
 
 //
 // Component:   MessageProvider
 // Description: Provides the message system where needed
 //
-function MessageProvider({ children }: any) {
+function MessageProvider({ children }: IProps) {
   const toast = useToast();
 
   //
@@ -73,14 +64,4 @@ function MessageProvider({ children }: any) {
   );
 }
 
-//
-// Function:    useMessage
-// Description: hook to use the MessageContext
-// Parameters:  none
-// Returns:     the message context
-//
-function useMessage() {
-  return useContext(MessageContext);
-}
-
-export { useMessage, MessageProvider };
+export default MessageProvider;
