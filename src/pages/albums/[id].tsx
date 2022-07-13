@@ -16,6 +16,8 @@ import SetlistApi from "@/api/setlists";
 import AlbumImage from "@/components/Album/AlbumImage";
 import TrackList from "@/components/Album/TrackList";
 import ISetlist from "@/interfaces/Setlist";
+import AddToSetlist from "@/components/Setlist/AddToSetlist";
+import { useMessage } from "@/context/message-context";
 
 // Props
 interface IProps {
@@ -28,10 +30,35 @@ interface IProps {
 //  Description:  /albums/[id] page
 //
 const ID: NextPage<IProps> = ({ album, setlists }: IProps) => {
+  const { failure, success } = useMessage();
+
+  //
+  // Function:    onSubmit
+  // Description: Handles how the ui should react when adding an albums
+  //              tracks to a setlist
+  // Parameters:  setlistId: string - the id of the setlist to add to
+  //              albumId: string - the id of the album to add
+  // Returns:     n/a
+  //
+  async function onSubmit(setlistId: string, albumId: string) {
+    try {
+      await SetlistApi.addAlbum(setlistId, albumId);
+      success("Album tracks successfully added to setlist.");
+    } catch (error: any) {
+      failure(error.message);
+    }
+  }
+
   return (
     <>
       <Header />
       <Heading>{`${album.artist} - ${album.name}`}</Heading>
+      <AddToSetlist<string>
+        onSubmit={onSubmit}
+        setlists={setlists}
+        payload={album.mbid}
+        title={`${album.artist} - ${album.artist}`}
+      />
       <AlbumImage image={album.image} />
       <TrackList album={album} setlists={setlists} />
     </>
