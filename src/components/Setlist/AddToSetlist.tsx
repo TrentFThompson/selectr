@@ -6,6 +6,7 @@
 // Installed imports
 import {
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Modal,
@@ -16,10 +17,13 @@ import {
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useState } from "react";
 
 // Custom imports
 import ISetlist from "@/interfaces/Setlist";
+import CreateSetlist from "@/components/Setlist/CreateSetlist";
+import SetlistApi from "@/api/setlists";
+import { useMessage } from "@/context/message-context";
 
 // Prop Definition
 interface IProps<T> {
@@ -40,6 +44,8 @@ export default function AddToSetlist<T>({
   payload,
 }: IProps<T>) {
   const { onOpen, onClose, isOpen } = useDisclosure();
+  const [setlistState, setSetlistState] = useState<ISetlist[]>(setlists);
+  const { success, failure } = useMessage();
 
   //
   // Function:    _onSubmit
@@ -60,6 +66,22 @@ export default function AddToSetlist<T>({
     onClose();
   }
 
+  //
+  // Function:    onSetlistCreate
+  // Description: Handles the setlist creation for this component
+  // Parameters:  name: string - the name of the new setlist
+  // Returns:     n/a
+  //
+  async function onSetlistCreate(name: string) {
+    try {
+      const setlist = await SetlistApi.create(name);
+      setSetlistState((prevState) => [...prevState, setlist]);
+      success("New setlist created.");
+    } catch (error: any) {
+      failure(error.message);
+    }
+  }
+
   return (
     <>
       <Button onClick={onOpen}>Add to setlist</Button>
@@ -72,7 +94,7 @@ export default function AddToSetlist<T>({
               <FormControl>
                 <FormLabel htmlFor="setlist">Setlist</FormLabel>
                 <Select name="setlist" id="setlist">
-                  {setlists.map((s) => {
+                  {setlistState.map((s) => {
                     return (
                       <option value={s.id} key={s.id}>
                         {s.name}
@@ -86,6 +108,7 @@ export default function AddToSetlist<T>({
                 <Button onClick={() => onClose()}>Cancel</Button>
               </FormControl>
             </form>
+            <CreateSetlist onSubmit={onSetlistCreate} />
           </ModalBody>
         </ModalContent>
       </Modal>
