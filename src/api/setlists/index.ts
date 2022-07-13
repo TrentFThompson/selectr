@@ -7,8 +7,9 @@
 import findAll from "./findAll";
 import addTrack from "./addTrack";
 import create from "./create";
+import remove from "./remove";
 
 // Create the api
-const SetlistApi = { findAll, addTrack, create };
+const SetlistApi = { findAll, addTrack, create, remove };
 
 export default SetlistApi;

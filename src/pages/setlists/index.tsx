@@ -47,13 +47,31 @@ const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
     }
   }
 
+  //
+  // Function:    onRemove
+  // Description: Describes how UI should react when a setlist
+  //              is removed
+  // Parameters:  id: string - the id of the setlist to remove
+  // Returns:     n/a
+  //
+  async function onRemove(id: string) {
+    try {
+      // Remove via api and set state
+      await SetlistApi.remove(id);
+      setSetlistState((prevState) => prevState.filter((s) => s.id !== id));
+      success("Setlist removed successfully.");
+    } catch (error: any) {
+      failure(error.message);
+    }
+  }
+
   return (
     <>
       <Header />
       <Center pt="10" flexDirection={"column"}>
         <Heading>Setlists</Heading>
         <Text pb="5">Manage your setlists.</Text>
-        <SetlistList setlists={setlistState} />
+        <SetlistList onRemove={onRemove} setlists={setlistState} />
         <CreateSetlist onSubmit={onSubmit} />
       </Center>
     </>
