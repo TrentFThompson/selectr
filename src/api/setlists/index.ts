@@ -5,5 +5,6 @@
 
 // Custom imports
 import findAll from "./findAll";
+import addTrack from "./addTrack";
 
-export default { findAll };
+export default { findAll, addTrack };

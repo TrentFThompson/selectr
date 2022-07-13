@@ -7,28 +7,62 @@
 import { Text } from "@chakra-ui/react";
 
 // Custom imports
-import IAlbumTrack from "@/interfaces/AlbumTrack";
+import IAlbum from "@/interfaces/Album";
+import ISetlist from "@/interfaces/Setlist";
+import AddToSetlist from "../Setlist/AddToSetlist";
+import { useMessage } from "@/context/message-context";
+import SetlistApi from "@/api/setlists";
+import ITrack from "@/interfaces/Track";
 
 // Prop Definition
 interface IProps {
-  tracks: IAlbumTrack[];
+  album: IAlbum;
+  setlists: ISetlist[];
 }
 
 //
 //  Component:    TrackList
 //  Description:  Shows a list of album tracks
 //
-export default function TrackList({ tracks }: IProps) {
-  if (!tracks) {
+export default function TrackList({ album, setlists }: IProps) {
+  const { success, failure } = useMessage();
+
+  //
+  // Function:    submitTrack
+  // Description: Handles adding a track to a specified setlist
+  // Parameters:  id: string - the id of the setlist to add to
+  //              track: ITrack - the track to add to the setlist
+  // Returns:     n/a
+  //
+  async function submitTrack(id: string, track: ITrack) {
+    try {
+      await SetlistApi.addTrack(id, track);
+      success("Successfully added track to setlist.");
+    } catch (e: any) {
+      failure(e.message);
+    }
+  }
+
+  if (!album.tracks) {
     return <Text>Track list not available.</Text>;
   }
 
   return (
     <>
-      {tracks.map((t) => {
+      {album.tracks.map((t) => {
         return (
           <div key={`${t.name}-${t.rank}`}>
             <Text>{`${t.rank}. ${t.name}`}</Text>
+            <AddToSetlist<ITrack>
+              setlists={setlists}
+              title={`${album.artist} - ${t.name}`}
+              onSubmit={submitTrack}
+              payload={{
+                name: t.name,
+                album: album.name,
+                artist: album.artist,
+              }}
+            />
           </div>
         );
       })}

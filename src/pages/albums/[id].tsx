@@ -12,25 +12,28 @@ import IAlbum from "@/interfaces/Album";
 import Header from "@/components/Page/Header";
 import handleSSPError from "@/utils/handleSSPError";
 import AlbumAPi from "@/api/albums";
+import SetlistApi from "@/api/setlists";
 import AlbumImage from "@/components/Album/AlbumImage";
 import TrackList from "@/components/Album/TrackList";
+import ISetlist from "@/interfaces/Setlist";
 
 // Props
 interface IProps {
   album: IAlbum;
+  setlists: ISetlist[];
 }
 
 //
 //  Component:    ID
 //  Description:  /albums/[id] page
 //
-const ID: NextPage<IProps> = ({ album }: IProps) => {
+const ID: NextPage<IProps> = ({ album, setlists }: IProps) => {
   return (
     <>
       <Header />
       <Heading>{`${album.artist} - ${album.name}`}</Heading>
       <AlbumImage image={album.image} />
-      <TrackList tracks={album.tracks} />
+      <TrackList album={album} setlists={setlists} />
     </>
   );
 };
@@ -54,6 +57,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return {
       props: {
         album: await AlbumAPi.findOne(id),
+        setlists: await SetlistApi.findAll(),
       },
     };
   });
