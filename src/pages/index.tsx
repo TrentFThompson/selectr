@@ -13,6 +13,7 @@ import Header from "@/components/Page/Header";
 import AlbumSearchResult from "@/components/Search/SearchResults/AlbumSearchResult";
 import AlbumApi from "@/api/albums";
 import { useMessage } from "@/context/message-context";
+import IAlbum from "@/interfaces/Album";
 
 //
 //  Component:    Home
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
       <Center pt="10" flexDirection={"column"}>
         <Heading>Album Search</Heading>
         <Text pb="5">Search for albums to begin adding to your setlists.</Text>
-        <Search
+        <Search<IAlbum>
           search={search}
           SearchResult={AlbumSearchResult}
           placeholder="e.g. Warren Zevon"
