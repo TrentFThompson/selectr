@@ -6,7 +6,6 @@
 // Installed imports
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { Center, Heading, Text } from "@chakra-ui/react";
-import Link from "next/link";
 import { useState } from "react";
 
 // Custom imports
@@ -16,6 +15,7 @@ import SetlistApi from "@/api/setlists";
 import handleSSPError from "@/utils/handleSSPError";
 import CreateSetlist from "@/components/Setlist/CreateSetlist";
 import { useMessage } from "@/context/message-context";
+import SetlistList from "@/components/Setlist/SetlistList";
 
 // Props interface
 interface IProps {
@@ -59,25 +59,6 @@ const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
     </>
   );
 };
-
-//
-//  Component:    SetlistList
-//  Description:  Displays a list of setlits
-//  TODO:         To be moved into component folder later
-//
-function SetlistList({ setlists }: { setlists: ISetlist[] }) {
-  return (
-    <>
-      {setlists.map((s) => {
-        return (
-          <Link key={s.id} href={`/setlists/${s.id}`}>
-            <a>{s.name}</a>
-          </Link>
-        );
-      })}
-    </>
-  );
-}
 
 //
 // Function:    getServerSideProps
