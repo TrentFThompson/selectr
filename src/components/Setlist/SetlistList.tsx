@@ -5,10 +5,10 @@
 
 // Installed imports
 import Link from "next/link";
-import { Button } from "@chakra-ui/react";
 
 // Custom imports
 import ISetlist from "@/interfaces/Setlist";
+import RemoveSetlist from "@/components/Setlist/RemoveSetlist";
 
 // Prop definition
 interface IProps {
@@ -29,9 +29,7 @@ export default function SetlistList({ setlists, onRemove }: IProps) {
             <Link key={s.id} href={`/setlists/${s.id}`}>
               <a>{s.name}</a>
             </Link>
-            <Button bg={"red"} onClick={() => onRemove(s.id)}>
-              Remove
-            </Button>
+            <RemoveSetlist setlist={s} onClick={onRemove} />
           </>
         );
       })}
