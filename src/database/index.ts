@@ -68,4 +68,19 @@ async function remove(collection: string, id: string) {
   await db.collection(collection).doc(id).delete();
 }
 
-export default { insert, findAll, find, remove };
+//
+//  Function:     remove
+//  Description:  removes a document from a specified collection
+//  Params:       collection: string - the collection to remove from
+//                id: string - the id of the object to remove
+//  Returns:      N/A
+//
+async function removeCollection(collection: string) {
+  // Get a snapshot of the collection
+  const snapshot = await db.collection(collection).get();
+
+  // Remove each document in the collection
+  snapshot.forEach((doc) => doc.ref.delete());
+}
+
+export default { insert, findAll, find, remove, removeCollection };

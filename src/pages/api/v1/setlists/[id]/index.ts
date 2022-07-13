@@ -41,7 +41,7 @@ export default async function handler(
 
 //
 //  Function:     get
-//  Description:  handles facilitating get requests
+//  Description:  handles facilitating get requests - gets a setlist
 //  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      the requested document
@@ -59,7 +59,7 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 
 //
 //  Function:     _delete
-//  Description:  handles facilitating delete requests
+//  Description:  handles facilitating delete requests - removes a setlist
 //  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      204 response (no body)
@@ -72,5 +72,11 @@ async function _delete(req: NextApiRequest, res: NextApiResponse) {
     throw new NotFoundError("Setlist");
   }
 
+  // Remove the tracks subcollection of the setlist
+  await db.removeCollection(
+    `${Collections.Setlists}/${id}/${Collections.Tracks}`
+  );
+
+  // Remove the setlist from the setlist collection
   return res.status(204).json(await db.remove(Collections.Setlists, id));
 }
