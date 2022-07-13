@@ -22,6 +22,9 @@ export default function Header() {
           <Link href={"/"}>
             <a>Home</a>
           </Link>
+          <Link href={"/albums"}>
+            <a>Albums</a>
+          </Link>
           <Link href={"/setlists"}>
             <a>Setlists</a>
           </Link>
