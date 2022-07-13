@@ -6,5 +6,9 @@
 // Custom imports
 import findAll from "./findAll";
 import addTrack from "./addTrack";
+import create from "./create";
 
-export default { findAll, addTrack };
+// Create the api
+const SetlistApi = { findAll, addTrack, create };
+
+export default SetlistApi;

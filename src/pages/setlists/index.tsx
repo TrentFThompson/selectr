@@ -13,6 +13,7 @@ import Header from "@/components/Page/Header";
 import ISetlist from "@/interfaces/Setlist";
 import SetlistApi from "@/api/setlists";
 import handleSSPError from "@/utils/handleSSPError";
+import CreateSetlist from "@/components/Setlist/CreateSetlist";
 
 // Props interface
 interface IProps {
@@ -31,6 +32,7 @@ const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
         <Heading>Setlists</Heading>
         <Text pb="5">Manage your setlists.</Text>
         <SetlistList setlists={setlists} />
+        <CreateSetlist />
       </Center>
     </>
   );

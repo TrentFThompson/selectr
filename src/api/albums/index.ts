@@ -7,4 +7,7 @@
 import search from "./search";
 import findOne from "./findOne";
 
-export default { search, findOne };
+// Create the api
+const AlbumApi = { search, findOne };
+
+export default AlbumApi;
