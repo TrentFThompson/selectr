@@ -5,8 +5,9 @@
 
 // Custom imports
 import findAll from "./findAll";
+import remove from "./remove";
 
 // Create the api
-const TracksApi = { findAll };
+const TracksApi = { findAll, remove };
 
 export default TracksApi;

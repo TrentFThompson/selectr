@@ -5,7 +5,8 @@
 
 // Installed imports
 import type { NextPage, GetServerSidePropsContext } from "next";
-import { Center, Flex, Heading } from "@chakra-ui/react";
+import { Center, Flex, Heading, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
 // Custom imports
 import handleSSPError from "@/utils/handleSSPError";
@@ -14,6 +15,8 @@ import ISetlist from "@/interfaces/Setlist";
 import ITrack from "@/interfaces/Track";
 import TracksApi from "@/api/tracks";
 import Header from "@/components/Page/Header";
+import RemoveTrack from "@/components/Track/RemoveTrack";
+import { useMessage } from "@/context/message-context";
 
 // Props
 interface IProps {
@@ -26,14 +29,39 @@ interface IProps {
 //  Description:  /setlists/[id] page
 //
 const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
+  const [trackState, setTrackState] = useState<ITrack[]>(tracks);
+  const { success, failure } = useMessage();
+
+  //
+  //  Function:     onClick
+  //  Description:  handles removing a track and reacting via UI
+  //  Params:       id: string - the id of the track to remove
+  //  Returns:      n/a
+  //
+  async function onClick(id: string) {
+    try {
+      // Make request to remove the track
+      await TracksApi.remove(setlist.id, id);
+
+      // Remove the track from state and show a success message
+      setTrackState((prevState) => prevState.filter((p) => p.id !== id));
+      success("Track removed successfully.");
+    } catch (error: any) {
+      failure(error.message);
+    }
+  }
+
   return (
     <>
       <Header />
       <Center flexDirection={"column"}>
         <Heading>{setlist.name}</Heading>
         <Flex flexDirection={"column"}>
-          {tracks.map((t) => (
-            <div>{`${t.artist} - ${t.name}`}</div>
+          {trackState.map((t) => (
+            <div>
+              <Text>{`${t.artist} - ${t.name}`}</Text>
+              <RemoveTrack onClick={onClick} track={t} />
+            </div>
           ))}
         </Flex>
       </Center>
