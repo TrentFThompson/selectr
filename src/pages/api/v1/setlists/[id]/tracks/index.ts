@@ -66,7 +66,7 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 async function post(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
   return res
-    .status(200)
+    .status(201)
     .json(
       await db.insert(
         `${Collections.Setlists}/${id}/${Collections.Tracks}`,
