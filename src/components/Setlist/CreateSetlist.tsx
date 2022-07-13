@@ -22,21 +22,26 @@ import { SyntheticEvent } from "react";
 import { useMessage } from "@/context/message-context";
 import SetlistApi from "@/api/setlists";
 
+// Prop definition
+interface IProps {
+  onSubmit: (name: string) => void;
+}
+
 //
 //  Component:    CreateSetlist
 //  Description:  Shows a form to create a setlist
 //
-export default function AddToSetlist() {
+export default function AddToSetlist({ onSubmit }: IProps) {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const { failure, success } = useMessage();
+  const { failure } = useMessage();
 
   //
-  // Function:    onSubmit
+  // Function:    _onSubmit
   // Description: Handles submitting this form
   // Parameters:  e: SyntheticEvent - the form submit event
   // Returns:     n/a
   //
-  async function onSubmit(e: SyntheticEvent) {
+  async function _onSubmit(e: SyntheticEvent) {
     e.preventDefault();
 
     // Cast target to get name
@@ -50,14 +55,8 @@ export default function AddToSetlist() {
       return;
     }
 
-    // Use api to create, and error check
-    try {
-      await SetlistApi.create(name.value);
-      success("New setlist created.");
-    } catch (error: any) {
-      failure(error.message);
-    }
-
+    // Submit and close
+    onSubmit(name.value);
     onClose();
   }
 
@@ -69,7 +68,7 @@ export default function AddToSetlist() {
         <ModalContent>
           <ModalHeader>{"Create Setlist"}</ModalHeader>
           <ModalBody>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={_onSubmit}>
               <FormControl>
                 <FormLabel htmlFor="name">Name</FormLabel>
                 <Input name="name" id="name" />
