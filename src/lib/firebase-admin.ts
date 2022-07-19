@@ -19,9 +19,9 @@ if (!firebaseAdmin.apps.length) {
 }
 
 // Setup exports
-// const auth = firebaseAdmin.auth();
+const auth = firebaseAdmin.auth();
 const firestore = firebaseAdmin.firestore();
 // const storage = firebaseAdmin.storage();
 
-export { firestore };
+export { firestore, auth };
 export default firebaseAdmin;

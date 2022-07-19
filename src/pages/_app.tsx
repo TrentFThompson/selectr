@@ -9,10 +9,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 // Custom imports
 import { MessageProvider } from "@/context/message-context";
-import initAuth from "@/utils/auth/initAuth";
-
-// Initialize auth for the app
-initAuth();
+import { AuthProvider } from "@/context/auth-context";
 
 //
 //  Component:    MyApp
@@ -22,7 +19,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
       <MessageProvider>
-        <Component {...pageProps} />
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
       </MessageProvider>
     </ChakraProvider>
   );
