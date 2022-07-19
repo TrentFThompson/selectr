@@ -58,7 +58,7 @@ const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
         <Heading>{setlist.name}</Heading>
         <Flex flexDirection={"column"}>
           {trackState.map((t) => (
-            <div>
+            <div key={t.id}>
               <Text>{`${t.artist} - ${t.name}`}</Text>
               <RemoveTrack onClick={onClick} track={t} />
             </div>
