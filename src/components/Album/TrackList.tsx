@@ -13,6 +13,7 @@ import AddToSetlist from "../Setlist/AddToSetlist";
 import { useMessage } from "@/context/message-context";
 import SetlistApi from "@/api/setlists";
 import ITrack from "@/interfaces/Track";
+import { useAuth } from "@/context/auth-context";
 
 // Prop Definition
 interface IProps {
@@ -25,7 +26,8 @@ interface IProps {
 //  Description:  Shows a list of album tracks
 //
 export default function TrackList({ album, setlists }: IProps) {
-  const { success, failure } = useMessage();
+  const { success } = useMessage();
+  const { authRequest } = useAuth();
 
   //
   // Function:    submitTrack
@@ -35,12 +37,10 @@ export default function TrackList({ album, setlists }: IProps) {
   // Returns:     n/a
   //
   async function submitTrack(id: string, track: ITrack) {
-    try {
-      await SetlistApi.addTrack(id, track);
+    return await authRequest(async (token: string) => {
+      await SetlistApi.addTrack(id, track, token);
       success("Successfully added track to setlist.");
-    } catch (e: any) {
-      failure(e.message);
-    }
+    });
   }
 
   if (!album.tracks) {

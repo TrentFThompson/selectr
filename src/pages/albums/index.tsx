@@ -12,17 +12,17 @@ import Search from "@/components/Search";
 import Header from "@/components/Page/Header";
 import AlbumSearchResult from "@/components/Search/SearchResults/AlbumSearchResult";
 import AlbumApi from "@/api/albums";
-import { useMessage } from "@/context/message-context";
 import IAlbum from "@/interfaces/Album";
 import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
 import authenticate from "@/utils/getServerSideProps/authenticate";
+import { useAuth } from "@/context/auth-context";
 
 //
 //  Component:    Albums
 //  Description:  Album search page of the system
 //
 const Albums: NextPage = () => {
-  const { failure } = useMessage();
+  const { authRequest } = useAuth();
 
   //
   // Function:    search
@@ -32,12 +32,9 @@ const Albums: NextPage = () => {
   // Returns:     array of albums or empty on error
   //
   async function search(value: string) {
-    try {
-      return await AlbumApi.search(value);
-    } catch (error: any) {
-      failure(error.message);
-      return [];
-    }
+    return await authRequest(async (token: string) => {
+      return await AlbumApi.search(value, token);
+    });
   }
 
   return (

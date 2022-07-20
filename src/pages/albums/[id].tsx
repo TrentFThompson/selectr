@@ -19,6 +19,7 @@ import ISetlist from "@/interfaces/Setlist";
 import AddToSetlist from "@/components/Setlist/AddToSetlist";
 import { useMessage } from "@/context/message-context";
 import authenticate from "@/utils/getServerSideProps/authenticate";
+import { useAuth } from "@/context/auth-context";
 
 // Props
 interface IProps {
@@ -31,7 +32,8 @@ interface IProps {
 //  Description:  /albums/[id] page
 //
 const ID: NextPage<IProps> = ({ album, setlists }: IProps) => {
-  const { failure, success } = useMessage();
+  const { success } = useMessage();
+  const { authRequest } = useAuth();
 
   //
   // Function:    onSubmit
@@ -42,12 +44,10 @@ const ID: NextPage<IProps> = ({ album, setlists }: IProps) => {
   // Returns:     n/a
   //
   async function onSubmit(setlistId: string, albumId: string) {
-    try {
-      await SetlistApi.addAlbum(setlistId, albumId);
+    return await authRequest(async (token: string) => {
+      await SetlistApi.addAlbum(setlistId, albumId, token);
       success("Album tracks successfully added to setlist.");
-    } catch (error: any) {
-      failure(error.message);
-    }
+    });
   }
 
   return (

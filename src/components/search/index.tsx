@@ -32,7 +32,7 @@ export default function Search<T>({
   //  Returns:      N/A
   //
   async function onChange(value: string) {
-    setResults(await search(value));
+    setResults((await search(value)) || []);
   }
 
   return (

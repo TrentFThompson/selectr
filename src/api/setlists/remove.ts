@@ -18,7 +18,7 @@ import setAuthHeader from "../setAuthHeader";
 // Returns:     n/a
 //
 export default async function remove(id: string, token: string) {
-  await handleError(
+  return await handleError(
     async () =>
       await axios.delete(`${apiURL}/setlists/${id}`, setAuthHeader(token))
   );

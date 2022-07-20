@@ -20,7 +20,6 @@ import { SyntheticEvent } from "react";
 
 // Custom imports
 import { useMessage } from "@/context/message-context";
-import SetlistApi from "@/api/setlists";
 
 // Prop definition
 interface IProps {

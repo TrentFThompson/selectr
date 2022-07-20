@@ -9,6 +9,7 @@ import axios from "axios";
 // Custom imports
 import { apiURL } from "@/utils/url";
 import setAuthHeader from "@/api/setAuthHeader";
+import handleError from "../errors/handleError";
 
 //
 // Function:    findAll
@@ -17,13 +18,11 @@ import setAuthHeader from "@/api/setAuthHeader";
 // Returns:     the list of setlists found
 //
 export default async function findAll(token: string) {
-  try {
+  return await handleError(async () => {
     const { data } = await axios.get(
       `${apiURL}/setlists`,
       setAuthHeader(token)
     );
     return data;
-  } catch {
-    throw new Error("Server error. Try again later.");
-  }
+  });
 }

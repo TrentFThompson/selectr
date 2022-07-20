@@ -8,6 +8,7 @@ import axios from "axios";
 // Custom imports
 import { apiURL } from "@/utils/url";
 import setAuthHeader from "../setAuthHeader";
+import handleError from "../errors/handleError";
 
 //
 // Function:    findOne
@@ -17,7 +18,7 @@ import setAuthHeader from "../setAuthHeader";
 // Returns:     the individual album found
 //
 export default async function search(id: string, token: string) {
-  try {
+  return await handleError(async () => {
     const { data } = await axios.get(`${apiURL}/lastfm/albums/info`, {
       params: {
         mbid: id,
@@ -25,8 +26,5 @@ export default async function search(id: string, token: string) {
       ...setAuthHeader(token),
     });
     return data;
-  } catch {
-    // error to display if something goes wrong
-    throw new Error("Server error. Try again later.");
-  }
+  });
 }

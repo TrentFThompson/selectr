@@ -30,7 +30,7 @@ interface IProps {
 //
 const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
   const [setlistState, setSetlistState] = useState<ISetlist[]>(setlists);
-  const { success, failure } = useMessage();
+  const { success } = useMessage();
   const { authRequest } = useAuth();
 
   //
@@ -41,13 +41,11 @@ const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
   // Returns:     n/a
   //
   async function onSubmit(name: string) {
-    try {
-      const setlist = await SetlistApi.create(name);
+    await authRequest(async (token: string) => {
+      const setlist = await SetlistApi.create(name, token);
       setSetlistState((prevState) => [...prevState, setlist]);
       success("New setlist created.");
-    } catch (error: any) {
-      failure(error.message);
-    }
+    });
   }
 
   //

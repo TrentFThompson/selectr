@@ -24,6 +24,7 @@ import ISetlist from "@/interfaces/Setlist";
 import CreateSetlist from "@/components/Setlist/CreateSetlist";
 import SetlistApi from "@/api/setlists";
 import { useMessage } from "@/context/message-context";
+import { useAuth } from "@/context/auth-context";
 
 // Prop Definition
 interface IProps<T> {
@@ -45,7 +46,8 @@ export default function AddToSetlist<T>({
 }: IProps<T>) {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [setlistState, setSetlistState] = useState<ISetlist[]>(setlists);
-  const { success, failure } = useMessage();
+  const { success } = useMessage();
+  const { authRequest } = useAuth();
 
   //
   // Function:    _onSubmit
@@ -73,13 +75,11 @@ export default function AddToSetlist<T>({
   // Returns:     n/a
   //
   async function onSetlistCreate(name: string) {
-    try {
-      const setlist = await SetlistApi.create(name);
+    return await authRequest(async (token: string) => {
+      const setlist = await SetlistApi.create(name, token);
       setSetlistState((prevState) => [...prevState, setlist]);
       success("New setlist created.");
-    } catch (error: any) {
-      failure(error.message);
-    }
+    });
   }
 
   return (

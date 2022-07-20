@@ -18,6 +18,7 @@ import Header from "@/components/Page/Header";
 import RemoveTrack from "@/components/Track/RemoveTrack";
 import { useMessage } from "@/context/message-context";
 import authenticate from "@/utils/getServerSideProps/authenticate";
+import { useAuth } from "@/context/auth-context";
 
 // Props
 interface IProps {
@@ -31,7 +32,8 @@ interface IProps {
 //
 const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
   const [trackState, setTrackState] = useState<ITrack[]>(tracks);
-  const { success, failure } = useMessage();
+  const { success } = useMessage();
+  const { authRequest } = useAuth();
 
   //
   //  Function:     onClick
@@ -40,16 +42,14 @@ const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
   //  Returns:      n/a
   //
   async function onClick(id: string) {
-    try {
+    await authRequest(async (token: string) => {
       // Make request to remove the track
-      await TracksApi.remove(setlist.id, id);
+      await TracksApi.remove(setlist.id, id, token);
 
       // Remove the track from state and show a success message
       setTrackState((prevState) => prevState.filter((p) => p.id !== id));
       success("Track removed successfully.");
-    } catch (error: any) {
-      failure(error.message);
-    }
+    });
   }
 
   return (
@@ -79,7 +79,7 @@ const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return await handleSSPError(async () => {
     // Authenticate the user on this page
-    await authenticate(context);
+    const token = await authenticate(context);
 
     // Get the id of the requested album
     const { id } = context.query;
@@ -91,8 +91,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        setlist: await SetlistApi.findOne(id),
-        tracks: await TracksApi.findAll(id),
+        setlist: await SetlistApi.findOne(id, token),
+        tracks: await TracksApi.findAll(id, token),
       },
     };
   });
