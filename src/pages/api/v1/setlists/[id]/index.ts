@@ -11,6 +11,7 @@ import { BadRequestError, NotFoundError } from "@/server/errors";
 import handleError from "@/server/errors/handleError";
 import db from "@/database/index";
 import { Collections } from "@/database/collections";
+import authenticateRequest from "@/server/auth/authenticateRequest";
 
 //
 //  Function:     handler
@@ -28,7 +29,7 @@ export default async function handler(
         return await get(req, res);
       }
       case "DELETE": {
-        return await _delete(req, res);
+        return await authenticateRequest(req, res, _delete);
       }
       default: {
         throw new BadRequestError("Method not implemented");
@@ -64,7 +65,7 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 //                res: NextApiResponse - the response object
 //  Returns:      204 response (no body)
 //
-async function _delete(req: NextApiRequest, res: NextApiResponse) {
+async function _delete(uid: string, req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
   // Fix for type issues for now
