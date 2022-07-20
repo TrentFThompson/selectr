@@ -10,7 +10,7 @@ import { Heading } from "@chakra-ui/react";
 // Custom imports
 import IAlbum from "@/interfaces/Album";
 import Header from "@/components/Page/Header";
-import handleSSPError from "@/utils/handleSSPError";
+import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
 import AlbumAPi from "@/api/albums";
 import SetlistApi from "@/api/setlists";
 import AlbumImage from "@/components/Album/AlbumImage";
@@ -18,6 +18,7 @@ import TrackList from "@/components/Album/TrackList";
 import ISetlist from "@/interfaces/Setlist";
 import AddToSetlist from "@/components/Setlist/AddToSetlist";
 import { useMessage } from "@/context/message-context";
+import authenticate from "@/utils/getServerSideProps/authenticate";
 
 // Props
 interface IProps {
@@ -81,10 +82,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       throw new Error();
     }
 
+    // Get the token for the requests
+    const token = await authenticate(context);
+
     return {
       props: {
-        album: await AlbumAPi.findOne(id),
-        setlists: await SetlistApi.findAll(),
+        album: await AlbumAPi.findOne(id, token),
+        setlists: await SetlistApi.findAll(token),
       },
     };
   });

@@ -12,10 +12,11 @@ import { useState } from "react";
 import Header from "@/components/Page/Header";
 import ISetlist from "@/interfaces/Setlist";
 import SetlistApi from "@/api/setlists";
-import handleSSPError from "@/utils/handleSSPError";
+import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
 import CreateSetlist from "@/components/Setlist/CreateSetlist";
 import { useMessage } from "@/context/message-context";
 import SetlistList from "@/components/Setlist/SetlistList";
+import authenticate from "@/utils/getServerSideProps/authenticate";
 
 // Props interface
 interface IProps {
@@ -87,9 +88,13 @@ const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   // Wrap our server side prop body with the error handler
   return await handleSSPError(async () => {
+    // Get the user id
+    const token = await authenticate(context);
+
+    // And search for the data
     return {
       props: {
-        setlists: await SetlistApi.findAll(),
+        setlists: await SetlistApi.findAll(token),
       },
     };
   });
