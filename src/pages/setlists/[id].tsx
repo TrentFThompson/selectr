@@ -9,7 +9,7 @@ import { Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 // Custom imports
-import handleSSPError from "@/utils/handleSSPError";
+import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
 import SetlistApi from "@/api/setlists";
 import ISetlist from "@/interfaces/Setlist";
 import ITrack from "@/interfaces/Track";
