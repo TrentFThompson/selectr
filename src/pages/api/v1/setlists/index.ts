@@ -12,6 +12,7 @@ import handleError from "@/server/errors/handleError";
 import { create } from "@/schemas/setlists";
 import db from "@/database/index";
 import { Collections } from "@/database/collections";
+import authenticateRequest from "@/server/auth/authenticateRequest";
 
 //
 //  Function:     handler
@@ -26,7 +27,7 @@ export default async function handler(
   try {
     switch (req.method) {
       case "GET": {
-        return await get(req, res);
+        return await authenticateRequest(req, res, get);
       }
       case "POST": {
         return await post(req, res);
@@ -47,7 +48,7 @@ export default async function handler(
 //                res: NextApiResponse - the response object
 //  Returns:      the list of setlists in the database
 //
-async function get(req: NextApiRequest, res: NextApiResponse) {
+async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
   return res.status(200).json(await db.findAll(Collections.Setlists));
 }
 

@@ -45,3 +45,13 @@ export class BadRequestError extends HttpError {
     super(`Bad request. ${message}.`, 400);
   }
 }
+
+//
+//  Class:        AuthError
+//  Description:  Defines a 401 error for error handling
+//
+export class AuthError extends HttpError {
+  constructor() {
+    super("Bad request. Please authenticate.", 401);
+  }
+}
