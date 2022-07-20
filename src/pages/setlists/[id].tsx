@@ -17,6 +17,7 @@ import TracksApi from "@/api/tracks";
 import Header from "@/components/Page/Header";
 import RemoveTrack from "@/components/Track/RemoveTrack";
 import { useMessage } from "@/context/message-context";
+import authenticate from "@/utils/getServerSideProps/authenticate";
 
 // Props
 interface IProps {
@@ -77,6 +78,9 @@ const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
 //
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return await handleSSPError(async () => {
+    // Authenticate the user on this page
+    await authenticate(context);
+
     // Get the id of the requested album
     const { id } = context.query;
 

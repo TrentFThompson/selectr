@@ -4,7 +4,7 @@
 //
 
 // Installed imports
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import { Center, Heading, Text } from "@chakra-ui/react";
 
 // Custom imports
@@ -14,6 +14,8 @@ import AlbumSearchResult from "@/components/Search/SearchResults/AlbumSearchResu
 import AlbumApi from "@/api/albums";
 import { useMessage } from "@/context/message-context";
 import IAlbum from "@/interfaces/Album";
+import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
+import authenticate from "@/utils/getServerSideProps/authenticate";
 
 //
 //  Component:    Albums
@@ -53,5 +55,21 @@ const Albums: NextPage = () => {
     </>
   );
 };
+
+//
+//  Function:     getServerSideProps
+//  Description:  authenticate the user can see this page
+//  Params:       context: GetServerSidePropsContext
+//  Returns:      Object
+//
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return await handleSSPError(async () => {
+    // Authenticate the user
+    await authenticate(context);
+    return {
+      props: {},
+    };
+  });
+}
 
 export default Albums;

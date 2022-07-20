@@ -4,11 +4,13 @@
 //
 
 // Installed imports
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import { Center, Heading } from "@chakra-ui/react";
 
 // Custom imports
 import Header from "@/components/Page/Header";
+import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
+import authenticate from "@/utils/getServerSideProps/authenticate";
 
 //
 //  Component:    Home
@@ -24,5 +26,21 @@ const Home: NextPage = () => {
     </>
   );
 };
+
+//
+//  Function:     getServerSideProps
+//  Description:  authenticate the user can see this page
+//  Params:       context: GetServerSidePropsContext
+//  Returns:      Object
+//
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return await handleSSPError(async () => {
+    // Authenticate the user
+    await authenticate(context);
+    return {
+      props: {},
+    };
+  });
+}
 
 export default Home;
