@@ -4,6 +4,9 @@
 //                getServerSideProps errors
 //
 
+// Installed imports
+import { SSPAuthError } from "./errors";
+
 //
 // Function:    handleSSPError
 // Description: Handles an error with getServerSideProps
@@ -15,9 +18,14 @@ export default async function handleSSPError(callback: Function) {
   try {
     return await callback();
   } catch (error: any) {
-    // Evaluate errors here (for example an auth error)
-    // And redirect if necessary
-    // but for now default redirect (no specific errors specified)
+    if (error instanceof SSPAuthError) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+      };
+    }
     return {
       redirect: {
         permanent: false,
