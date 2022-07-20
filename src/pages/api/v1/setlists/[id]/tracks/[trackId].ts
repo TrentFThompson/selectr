@@ -11,6 +11,7 @@ import { BadRequestError, NotFoundError } from "@/server/errors";
 import handleError from "@/server/errors/handleError";
 import db from "@/database/index";
 import { Collections } from "@/database/collections";
+import authenticateRequest from "@/server/auth/authenticateRequest";
 
 //
 //  Function:     handler
@@ -25,7 +26,7 @@ export default async function handler(
   try {
     switch (req.method) {
       case "DELETE": {
-        return await _delete(req, res);
+        return await authenticateRequest(req, res, _delete);
       }
       default: {
         throw new BadRequestError("Method not implemented");
@@ -39,17 +40,25 @@ export default async function handler(
 //
 //  Function:     _delete
 //  Description:  remove a song from a specified setlist
-//  Params:       req: NextApiRequest - the request object
+//  Params:       uid: string - the user id of the request
+//                req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      N/A
 //
-async function _delete(req: NextApiRequest, res: NextApiResponse) {
+async function _delete(uid: string, req: NextApiRequest, res: NextApiResponse) {
   const { id, trackId } = req.query;
 
   // Fix for type issues for now
   if (!trackId || Array.isArray(trackId)) {
     throw new NotFoundError("Track");
   }
+  // Fix for type issues for now
+  if (!id || Array.isArray(id)) {
+    throw new NotFoundError("Track");
+  }
+
+  // Ensure the setlist belongs to the user
+  await db.findWithUid(Collections.Setlists, id, uid);
 
   return res
     .status(204)

@@ -39,7 +39,8 @@ export default async function handler(
 //
 //  Function:     get
 //  Description:  handles facilitating the get request
-//  Params:       req: NextApiRequest - the request object
+//  Params:       _: string - the user id of the request (unused)
+//                req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      info of an album
 //

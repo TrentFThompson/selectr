@@ -10,6 +10,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import lastFm from "@/server/lastfm";
 import { BadRequestError } from "@/server/errors";
 import handleError from "@/server/errors/handleError";
+import authenticateRequest from "@/server/auth/authenticateRequest";
 
 //
 //  Function:     handler
@@ -24,7 +25,7 @@ export default async function handler(
   try {
     switch (req.method) {
       case "GET": {
-        return await get(req, res);
+        return await authenticateRequest(req, res, get);
       }
       default: {
         throw new BadRequestError("Method not implemented");
@@ -38,11 +39,12 @@ export default async function handler(
 //
 //  Function:     get
 //  Description:  handles facilitating get requests
-//  Params:       req: NextApiRequest - the request object
+//  Params:       uid: string - the user id of the request
+//                req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      Array of albums, potentially 0 length
 //
-async function get(req: NextApiRequest, res: NextApiResponse) {
+async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
   const { search = "" } = req.query;
   return res.status(200).json(await lastFm.searchAlbums(search));
 }

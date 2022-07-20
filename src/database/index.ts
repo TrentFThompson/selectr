@@ -43,6 +43,22 @@ async function findAll(collection: string) {
 }
 
 //
+//  Function:     findAllWithId
+//  Description:  finds list of data in a collection with a specific UID
+//  Params:       collection: string - the collection to read from
+//                uid: string - the uid on the document
+//  Returns:      The data found in the database
+//
+async function findAllWithUid(collection: string, uid: string) {
+  // Get the data
+  const { docs } = await db
+    .collection(collection)
+    .where("uid", "==", uid)
+    .get();
+  return docs.map((d) => d.data());
+}
+
+//
 //  Function:     find
 //  Description:  finds a document in a specified collection
 //  Params:       collection: string - the collection to read from
@@ -52,6 +68,24 @@ async function findAll(collection: string) {
 async function find(collection: string, id: string) {
   const doc = await db.collection(collection).doc(id).get();
   if (!doc.exists) {
+    throw new NotFoundError(`${collection} document`);
+  }
+  return doc.data();
+}
+
+//
+//  Function:     findWithUid
+//  Description:  finds a document in a specified collection with a UID
+//  Params:       collection: string - the collection to read from
+//                id: string - the id of the object to find
+//                uid: string - the uid of the user
+//  Returns:      The data found in the database
+//
+async function findWithUid(collection: string, id: string, uid: string) {
+  const doc = await db.collection(collection).doc(id).get();
+  const data = doc.data();
+
+  if (!doc.exists || data?.uid !== uid) {
     throw new NotFoundError(`${collection} document`);
   }
   return doc.data();
@@ -83,4 +117,12 @@ async function removeCollection(collection: string) {
   snapshot.forEach((doc) => doc.ref.delete());
 }
 
-export default { insert, findAll, find, remove, removeCollection };
+export default {
+  insert,
+  findAll,
+  findAllWithUid,
+  find,
+  findWithUid,
+  remove,
+  removeCollection,
+};

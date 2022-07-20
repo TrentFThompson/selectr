@@ -30,7 +30,7 @@ export default async function handler(
         return await authenticateRequest(req, res, get);
       }
       case "POST": {
-        return await post(req, res);
+        return await authenticateRequest(req, res, post);
       }
       default: {
         throw new BadRequestError("Method not implemented");
@@ -44,24 +44,30 @@ export default async function handler(
 //
 //  Function:     get
 //  Description:  handles facilitating get requests
-//  Params:       req: NextApiRequest - the request object
+//  Params:       uid: string - the user id of the request
+//                req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      the list of setlists in the database
 //
 async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
-  return res.status(200).json(await db.findAll(Collections.Setlists));
+  return res
+    .status(200)
+    .json(await db.findAllWithUid(Collections.Setlists, uid));
 }
 
 //
 //  Function:     post
 //  Description:  handles facilitating post requests
-//  Params:       req: NextApiRequest - the request object
+//  Params:       uid: string - the user id of the request
+//                req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      the newly inserted setlist
 //
-async function post(req: NextApiRequest, res: NextApiResponse) {
+async function post(uid: string, req: NextApiRequest, res: NextApiResponse) {
   // Validate the request and insert into the setlist collection
   return res
     .status(201)
-    .json(await db.insert(Collections.Setlists, create.parse(req.body)));
+    .json(
+      await db.insert(Collections.Setlists, { uid, ...create.parse(req.body) })
+    );
 }

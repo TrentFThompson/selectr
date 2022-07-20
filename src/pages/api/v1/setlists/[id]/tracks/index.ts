@@ -7,11 +7,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Custom imports
-import { BadRequestError } from "@/server/errors";
+import { BadRequestError, NotFoundError } from "@/server/errors";
 import handleError from "@/server/errors/handleError";
 import db from "@/database/index";
 import { Collections } from "@/database/collections";
 import { create } from "@/schemas/setlists/tracks";
+import authenticateRequest from "@/server/auth/authenticateRequest";
 
 //
 //  Function:     handler
@@ -26,10 +27,10 @@ export default async function handler(
   try {
     switch (req.method) {
       case "GET": {
-        return await get(req, res);
+        return await authenticateRequest(req, res, get);
       }
       case "POST": {
-        return await post(req, res);
+        return await authenticateRequest(req, res, post);
       }
       default: {
         throw new BadRequestError("Method not implemented");
@@ -43,12 +44,21 @@ export default async function handler(
 //
 //  Function:     get
 //  Description:  handles facilitating get requests
-//  Params:       req: NextApiRequest - the request object
+//  Params:       uid: string - the user id of the request
+//                req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      the tracks found on the specified setlist
 //
-async function get(req: NextApiRequest, res: NextApiResponse) {
+async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
+  // Fix for type issues for now
+  if (!id || Array.isArray(id)) {
+    throw new NotFoundError("Track");
+  }
+
+  // Ensure the setlist belongs to the user
+  await db.findWithUid(Collections.Setlists, id, uid);
+
   return res
     .status(200)
     .json(
@@ -59,12 +69,21 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 //
 //  Function:     post
 //  Description:  handles facilitating post requests
-//  Params:       req: NextApiRequest - the request object
+//  Params:       uid: string - the user id of the request
+//                req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      the added track to the setlist
 //
-async function post(req: NextApiRequest, res: NextApiResponse) {
+async function post(uid: string, req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
+  // Fix for type issues for now
+  if (!id || Array.isArray(id)) {
+    throw new NotFoundError("Track");
+  }
+
+  // Ensure the setlist belongs to the user
+  await db.findWithUid(Collections.Setlists, id, uid);
+
   return res
     .status(201)
     .json(
