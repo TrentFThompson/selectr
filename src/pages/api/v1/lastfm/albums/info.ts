@@ -10,6 +10,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import lastFm from "@/server/lastfm";
 import handleError from "@/server/errors/handleError";
 import { BadRequestError } from "@/server/errors";
+import authenticateRequest from "@/server/auth/authenticateRequest";
 
 //
 //  Function:     handler
@@ -24,7 +25,7 @@ export default async function handler(
   try {
     switch (req.method) {
       case "GET": {
-        return await get(req, res);
+        return await authenticateRequest(req, res, get);
       }
       default: {
         throw new BadRequestError("Method not implemented");
@@ -42,7 +43,7 @@ export default async function handler(
 //                res: NextApiResponse - the response object
 //  Returns:      info of an album
 //
-async function get(req: NextApiRequest, res: NextApiResponse) {
+async function get(_: string, req: NextApiRequest, res: NextApiResponse) {
   const { mbid = "" } = req.query;
   return res.status(200).json(await lastFm.albumInfo(mbid));
 }
