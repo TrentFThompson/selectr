@@ -17,6 +17,7 @@ import CreateSetlist from "@/components/Setlist/CreateSetlist";
 import { useMessage } from "@/context/message-context";
 import SetlistList from "@/components/Setlist/SetlistList";
 import authenticate from "@/utils/getServerSideProps/authenticate";
+import { useAuth } from "@/context/auth-context";
 
 // Props interface
 interface IProps {
@@ -30,6 +31,7 @@ interface IProps {
 const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
   const [setlistState, setSetlistState] = useState<ISetlist[]>(setlists);
   const { success, failure } = useMessage();
+  const { authRequest } = useAuth();
 
   //
   // Function:    onSubmit
@@ -56,14 +58,12 @@ const Setlists: NextPage<IProps> = ({ setlists }: IProps) => {
   // Returns:     n/a
   //
   async function onRemove(id: string) {
-    try {
+    await authRequest(async (token: string) => {
       // Remove via api and set state
-      await SetlistApi.remove(id);
+      await SetlistApi.remove(id, token);
       setSetlistState((prevState) => prevState.filter((s) => s.id !== id));
       success("Setlist removed successfully.");
-    } catch (error: any) {
-      failure(error.message);
-    }
+    });
   }
 
   return (
