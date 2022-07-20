@@ -9,6 +9,7 @@ import Link from "next/link";
 // Custom imports
 import ISetlist from "@/interfaces/Setlist";
 import RemoveSetlist from "@/components/Setlist/RemoveSetlist";
+import { Flex } from "@chakra-ui/react";
 
 // Prop definition
 interface IProps {
@@ -25,12 +26,12 @@ export default function SetlistList({ setlists, onRemove }: IProps) {
     <>
       {setlists.map((s) => {
         return (
-          <>
-            <Link key={s.id} href={`/setlists/${s.id}`}>
+          <Flex flexDirection={"column"} key={s.id}>
+            <Link href={`/setlists/${s.id}`}>
               <a>{s.name}</a>
             </Link>
             <RemoveSetlist setlist={s} onClick={onRemove} />
-          </>
+          </Flex>
         );
       })}
     </>
