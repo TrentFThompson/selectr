@@ -95,6 +95,18 @@ export default function AuthProvider({ children }: IProps) {
     });
   }, []);
 
+  // force refresh the token every 10 minutes
+  useEffect(() => {
+    const handle = setInterval(async () => {
+      const user = auth.currentUser;
+      if (user) {
+        await user.getIdToken(true);
+      }
+    }, 10 * 60 * 1000);
+
+    return () => clearInterval(handle);
+  }, []);
+
   return (
     <AuthContext.Provider value={{ user, login, logout, authRequest }}>
       {children}
