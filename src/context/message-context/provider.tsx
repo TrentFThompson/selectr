@@ -27,7 +27,7 @@ interface IProps {
 // Component:   MessageProvider
 // Description: Provides the message system where needed
 //
-function MessageProvider({ children }: IProps) {
+export default function MessageProvider({ children }: IProps) {
   const toast = useToast();
   const [messageState, setMessage] = useState("");
 
@@ -91,5 +91,3 @@ function MessageProvider({ children }: IProps) {
     </MessageContext.Provider>
   );
 }
-
-export default MessageProvider;

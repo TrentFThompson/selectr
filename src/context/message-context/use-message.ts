@@ -15,8 +15,6 @@ import MessageContext from "./initial-contex";
 // Parameters:  none
 // Returns:     the message context
 //
-function useMessage() {
+export default function useMessage() {
   return useContext(MessageContext);
 }
-
-export default useMessage;
