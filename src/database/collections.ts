@@ -6,4 +6,5 @@
 export enum Collections {
   Setlists = "setlists",
   Tracks = "tracks",
+  Requests = "requests",
 }
