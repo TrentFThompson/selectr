@@ -7,7 +7,7 @@
 import { useContext } from "react";
 
 // Custom imports
-import MessageContext from "./initial-contex";
+import MessageContext from "./initial-context";
 
 //
 // Function:    useMessage

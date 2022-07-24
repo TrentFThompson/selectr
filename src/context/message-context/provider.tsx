@@ -9,7 +9,7 @@ import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
 
 // Custom imports
-import MessageContext from "./initial-contex";
+import MessageContext from "./initial-context";
 
 // Constants
 const TEN_SECONDS = 10000;
