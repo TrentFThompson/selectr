@@ -3,12 +3,10 @@
 //  Description:  exports methods for working with the database
 //
 
-// Installed imports
-import { firestore as db } from "@/lib/firebase-admin";
-
 // Custom imports
 import createId from "./createId";
 import { NotFoundError } from "@/server/errors";
+import firebase, { firestore as db } from "@/lib/firebase-admin";
 
 //
 //  Function:     insert
@@ -21,8 +19,9 @@ async function insert(collection: string, data: object) {
   // Create an id and add to the data
   const id = createId(collection);
   data = {
-    id,
     ...data,
+    id,
+    createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
   };
 
   // Insert into database and return the data with id
