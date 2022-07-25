@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 
 // Custom imports
 import { useAuth } from "@/context/auth-context";
+import NotificationBell from "./NotificationBell";
 
 //
 //  Component:    Header
@@ -47,6 +48,7 @@ export default function Header() {
             <a>Setlists</a>
           </Link>
           <Button onClick={onClick}>Logout</Button>
+          <NotificationBell />
         </Flex>
       </Box>
     </Box>

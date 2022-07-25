@@ -10,6 +10,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 // Custom imports
 import { MessageProvider } from "@/context/message-context";
 import { AuthProvider } from "@/context/auth-context";
+import { RequestProvider } from "@/context/request-context";
 
 //
 //  Component:    MyApp
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider>
       <MessageProvider>
         <AuthProvider>
-          <Component {...pageProps} />
+          <RequestProvider>
+            <Component {...pageProps} />
+          </RequestProvider>
         </AuthProvider>
       </MessageProvider>
     </ChakraProvider>
