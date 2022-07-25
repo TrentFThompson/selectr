@@ -25,12 +25,12 @@ import IRequest from "@/interfaces/Request";
 //  Description:  Render the notification bell header component
 //
 export default function NotificationBell() {
-  const { requests } = useRequests();
+  const { requests, markAsRead, unreadRequests } = useRequests();
 
   return (
     <Flex position={"relative"}>
-      <NotificationMenu requests={requests} />
-      {requests.length > 0 && (
+      <NotificationMenu requests={requests} onClick={markAsRead} />
+      {unreadRequests > 0 && (
         <Circle
           top={"25px"}
           left={"30px"}
@@ -38,7 +38,7 @@ export default function NotificationBell() {
           size="20px"
           bg={"red"}
         >
-          <Text>{requests.length}</Text>
+          <Text>{unreadRequests}</Text>
         </Circle>
       )}
     </Flex>
@@ -49,19 +49,30 @@ export default function NotificationBell() {
 //  Component:    NotificationMenu
 //  Description:  Renders the menu for the notification bell
 //
-function NotificationMenu({ requests }: { requests: IRequest[] }) {
+function NotificationMenu({
+  requests,
+  onClick,
+}: {
+  requests: IRequest[];
+  onClick: Function;
+}) {
   return (
-    <Menu>
+    <Menu onOpen={() => onClick()}>
       <MenuButton as={IconButton} aria-label="Options" icon={<BellIcon />} />
       <MenuList>
-        {requests &&
+        {requests && requests.length > 0 ? (
           requests.map((r) => {
             return (
               <MenuItem>
                 <Text>{`${r.artist} - ${r.album} - ${r.name}`}</Text>
               </MenuItem>
             );
-          })}
+          })
+        ) : (
+          <MenuItem>
+            <Text>No requests</Text>
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );

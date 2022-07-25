@@ -116,6 +116,35 @@ async function removeCollection(collection: string) {
   snapshot.forEach((doc) => doc.ref.delete());
 }
 
+//
+//  Function:     updateAllWithUid
+//  Description:  updates a collection of documents belonging to a user
+//  Params:       collection: string - the collection update in
+//                uid: string - the uid on the document
+//                updates: object - the updates for the document
+//  Returns:      The data found in the database
+//
+async function updateAllWithUid(
+  collection: string,
+  uid: string,
+  updates: object
+) {
+  // Get the data
+  const { docs } = await db
+    .collection(collection)
+    .where("uid", "==", uid)
+    .get();
+
+  // Do the bulk update
+  const batch = db.batch();
+  docs.forEach((doc) => {
+    batch.update(db.collection(collection).doc(doc.id), updates);
+  });
+  await batch.commit();
+
+  return docs.map((d) => d.data());
+}
+
 export default {
   insert,
   findAll,
@@ -124,4 +153,5 @@ export default {
   findWithUid,
   remove,
   removeCollection,
+  updateAllWithUid,
 };

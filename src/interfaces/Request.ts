@@ -9,4 +9,5 @@ export default interface IRequest {
   artist: string;
   id: string;
   album: string;
+  read: boolean;
 }
