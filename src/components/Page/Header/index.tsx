@@ -1,10 +1,10 @@
 //
-//  File:         Header.tsx
+//  File:         Header/index.tsx
 //  Description:  Export the Header component
 //
 
 // Installed imports
-import { Box, Center, Heading, Flex, Button } from "@chakra-ui/react";
+import { Heading, Flex, Button, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -32,25 +32,45 @@ export default function Header() {
   }
 
   return (
-    <Box bgColor={"gray"} w="full" h="28">
-      <Center>
-        <Heading>Selectr</Heading>
-      </Center>
-      <Box w="container.sm">
-        <Flex flexDirection={"row"} justify="space-around">
-          <Link href={"/"}>
-            <a>Home</a>
-          </Link>
-          <Link href={"/albums"}>
-            <a>Albums</a>
-          </Link>
-          <Link href={"/setlists"}>
-            <a>Setlists</a>
-          </Link>
-          <Button onClick={onClick}>Logout</Button>
-          <NotificationBell />
-        </Flex>
-      </Box>
-    </Box>
+    <Flex
+      justifyContent={"space-between"}
+      p={"25px"}
+      position={"relative"}
+      bgColor={"gray"}
+      w="full"
+      h="125px"
+    >
+      <Flex h="100%" width={"50%"}>
+        <Links />
+      </Flex>
+      <Flex justifyContent={"space-around"} h="100%" width="15%">
+        <NotificationBell />
+        <Button onClick={onClick}>Logout</Button>
+      </Flex>
+    </Flex>
+  );
+}
+
+function Links() {
+  return (
+    <Flex width={"100%"} flexDirection={"row"} justify="space-around">
+      <Link href={"/"}>
+        <a>
+          <Heading>Selectr</Heading>
+        </a>
+      </Link>
+      <Flex width={"100%"} pt="4" justify={"space-around"}>
+        <Link href={"/albums"}>
+          <a>
+            <Text>Albums</Text>
+          </a>
+        </Link>
+        <Link href={"/setlists"}>
+          <a>
+            <Text>Setlists</Text>
+          </a>
+        </Link>
+      </Flex>
+    </Flex>
   );
 }
