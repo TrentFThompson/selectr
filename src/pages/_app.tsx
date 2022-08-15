@@ -5,12 +5,22 @@
 
 // Installed imports
 import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 // Custom imports
 import { MessageProvider } from "@/context/message-context";
 import { AuthProvider } from "@/context/auth-context";
 import { RequestProvider } from "@/context/request-context";
+
+// Define theme
+// Colors: https://coolors.co/16bac5-5fbff9-efe9f4-171d1c-5863f8
+const theme = extendTheme({
+  colors: {
+    brand: "#5FBFF9",
+    logo: "white",
+    accent: "#16BAC5",
+  },
+});
 
 //
 //  Component:    MyApp
@@ -18,7 +28,7 @@ import { RequestProvider } from "@/context/request-context";
 //
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <MessageProvider>
         <AuthProvider>
           <RequestProvider>
