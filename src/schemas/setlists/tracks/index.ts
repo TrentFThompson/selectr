@@ -12,8 +12,14 @@ const create = z
     name: z.string(),
     artist: z.string(),
     album: z.string(),
+    image: z.string(),
   })
-  .strict();
-
+  .strict()
+  .transform((val) => ({
+    ...val,
+    name_upper: val.name.toUpperCase(),
+    artist_upper: val.artist.toUpperCase(),
+    album_upper: val.album.toUpperCase(),
+  }));
 export { create };
 export default { create };

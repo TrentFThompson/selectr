@@ -92,7 +92,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return {
       props: {
         setlist: await SetlistApi.findOne(id, token),
-        tracks: await TracksApi.findAll(id, token),
+        tracks: await TracksApi.findAll(id),
       },
     };
   });

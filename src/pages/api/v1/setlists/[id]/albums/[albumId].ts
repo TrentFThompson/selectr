@@ -72,6 +72,10 @@ async function post(uid: string, req: NextApiRequest, res: NextApiResponse) {
       name: album.tracks[i].name,
       artist: album.artist,
       album: album.name,
+      name_upper: album.tracks[i].name.toUpperCase(),
+      artist_upper: album.artist.toUpperCase(),
+      album_upper: album.name.toUpperCase(),
+      image: album.image,
     });
   }
 

@@ -42,6 +42,31 @@ async function findAll(collection: string) {
 }
 
 //
+//  Function:     search
+//  Description:  finds list of data in a collection that meets search criteria
+//  Params:       collection: string - the collection to read from
+//                property: string - the property to search on
+//                search: string - the search query to match with
+//  Returns:      The data found in the database
+//
+async function search(
+  collection: string,
+  property: string,
+  search: string,
+  page: number = 1
+) {
+  const { docs } = await db
+    .collection(collection)
+    .where(property, ">=", search)
+    .where(property, "<=", `${search}\uf8ff`)
+    .limit(10)
+    .offset((page - 1) * 10)
+    .orderBy(property, "asc")
+    .get();
+  return docs.map((d) => d.data());
+}
+
+//
 //  Function:     findAllWithId
 //  Description:  finds list of data in a collection with a specific UID
 //  Params:       collection: string - the collection to read from
@@ -153,5 +178,6 @@ export default {
   findWithUid,
   remove,
   removeCollection,
+  search,
   updateAllWithUid,
 };

@@ -63,7 +63,7 @@ function NotificationMenu({
         {requests && requests.length > 0 ? (
           requests.map((r) => {
             return (
-              <MenuItem>
+              <MenuItem key={r.id}>
                 <Text>{`${r.artist} - ${r.album} - ${r.name}`}</Text>
               </MenuItem>
             );

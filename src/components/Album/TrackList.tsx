@@ -61,6 +61,7 @@ export default function TrackList({ album, setlists }: IProps) {
                 name: t.name,
                 album: album.name,
                 artist: album.artist,
+                image: album.image,
               }}
             />
           </div>

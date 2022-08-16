@@ -8,4 +8,5 @@ export default interface ITrack {
   artist: string;
   album: string;
   id?: string;
+  image: string;
 }

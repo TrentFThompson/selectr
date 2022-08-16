@@ -14,6 +14,7 @@ import { RequestProvider } from "@/context/request-context";
 
 // Define theme
 // Colors: https://coolors.co/16bac5-5fbff9-efe9f4-171d1c-5863f8
+// TODO: Make a file for this
 const theme = extendTheme({
   colors: {
     brand: "#5FBFF9",
