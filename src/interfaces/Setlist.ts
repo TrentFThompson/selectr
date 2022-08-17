@@ -6,4 +6,5 @@
 export default interface ISetlist {
   name: string;
   id: string;
+  uid: string;
 }

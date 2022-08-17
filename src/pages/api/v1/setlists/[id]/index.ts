@@ -26,7 +26,7 @@ export default async function handler(
   try {
     switch (req.method) {
       case "GET": {
-        return await authenticateRequest(req, res, get);
+        return await get(req, res);
       }
       case "DELETE": {
         return await authenticateRequest(req, res, _delete);
@@ -43,12 +43,11 @@ export default async function handler(
 //
 //  Function:     get
 //  Description:  handles facilitating get requests - gets a setlist
-//  Params:       uid: string - the user id of the request
-//                req: NextApiRequest - the request object
+//  Params:       req: NextApiRequest - the request object
 //                res: NextApiResponse - the response object
 //  Returns:      the requested document
 //
-async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
+async function get(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
   // Fix for type issues for now
@@ -56,9 +55,7 @@ async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
     throw new NotFoundError("Setlist");
   }
 
-  return res
-    .status(200)
-    .json(await db.findWithUid(Collections.Setlists, id, uid));
+  return res.status(200).json(await db.find(Collections.Setlists, id));
 }
 
 //

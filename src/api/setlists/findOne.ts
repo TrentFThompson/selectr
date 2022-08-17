@@ -9,7 +9,6 @@ import axios from "axios";
 // Custom imports
 import { apiURL } from "@/utils/url";
 import handleError from "../errors/handleError";
-import setAuthHeader from "../setAuthHeader";
 
 //
 // Function:    findOne
@@ -18,12 +17,9 @@ import setAuthHeader from "../setAuthHeader";
 //              token: string - the token for the auth request
 // Returns:     the setlist from the database
 //
-export default async function findOne(id: string, token: string) {
+export default async function findOne(id: string) {
   return await handleError(async () => {
-    const { data } = await axios.get(
-      `${apiURL}/setlists/${id}`,
-      setAuthHeader(token)
-    );
+    const { data } = await axios.get(`${apiURL}/setlists/${id}`);
     return data;
   });
 }
