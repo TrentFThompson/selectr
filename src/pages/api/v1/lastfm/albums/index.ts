@@ -44,7 +44,7 @@ export default async function handler(
 //                res: NextApiResponse - the response object
 //  Returns:      Array of albums, potentially 0 length
 //
-async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
+async function get(_: string, req: NextApiRequest, res: NextApiResponse) {
   const { search = "" } = req.query;
   return res.status(200).json(await lastFm.searchAlbums(search));
 }

@@ -8,14 +8,14 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { Center, Heading, Text } from "@chakra-ui/react";
 
 // Custom imports
-import Search from "@/components/Search";
+import SearchBar from "@/components/SearchBar";
 import Header from "@/components/Page/Header";
-import AlbumSearchResult from "@/components/Search/SearchResults/AlbumSearchResult";
+import AlbumSearchResult from "@/components/SearchBar/SearchResults/AlbumSearchResult";
 import AlbumApi from "@/api/albums";
-import IAlbum from "@/interfaces/Album";
 import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
 import authenticate from "@/utils/getServerSideProps/authenticate";
 import { useAuth } from "@/context/auth-context";
+import IAlbum from "@/interfaces/Album";
 
 //
 //  Component:    Albums
@@ -43,7 +43,7 @@ const Albums: NextPage = () => {
       <Center pt="10" flexDirection={"column"}>
         <Heading>Album Search</Heading>
         <Text pb="5">Search for albums to begin adding to your setlists.</Text>
-        <Search<IAlbum>
+        <SearchBar<IAlbum>
           search={search}
           SearchResult={AlbumSearchResult}
           placeholder="e.g. Warren Zevon"

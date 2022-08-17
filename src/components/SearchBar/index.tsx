@@ -7,7 +7,7 @@
 import { useState } from "react";
 import { Container, Flex, Input } from "@chakra-ui/react";
 
-// Interface for the search component props
+// // Interface for the search component props
 interface IProps<T> {
   search: (search: string) => Promise<T[]>;
   SearchResult: React.FC<{ result: T }>;

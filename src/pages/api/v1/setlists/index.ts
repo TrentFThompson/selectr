@@ -49,7 +49,7 @@ export default async function handler(
 //                res: NextApiResponse - the response object
 //  Returns:      the list of setlists in the database
 //
-async function get(uid: string, req: NextApiRequest, res: NextApiResponse) {
+async function get(uid: string, _: NextApiRequest, res: NextApiResponse) {
   return res
     .status(200)
     .json(await db.findAllWithUid(Collections.Setlists, uid));
