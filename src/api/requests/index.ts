@@ -5,8 +5,9 @@
 
 // Custom imports
 import markAllAsRead from "./markAllAsRead";
+import create from "./create";
 
 // Create the api
-const RequestApi = { markAllAsRead };
+const RequestApi = { markAllAsRead, create };
 
 export default RequestApi;
