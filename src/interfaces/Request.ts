@@ -7,7 +7,8 @@ export default interface IRequest {
   uid: string;
   name: string;
   artist: string;
-  id: string;
+  id?: string;
   album: string;
-  read: boolean;
+  read?: boolean;
+  title: string;
 }

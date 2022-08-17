@@ -10,9 +10,10 @@ import { z } from "zod";
 const create = z
   .object({
     artist: z.string(),
-    name: z.string(),
+    title: z.string(),
     album: z.string(),
     uid: z.string(),
+    name: z.string(),
   })
   .strict();
 
