@@ -44,13 +44,14 @@ export default async function handler(
 //  Returns:      the tracks found on the specified setlist
 //
 async function get(req: NextApiRequest, res: NextApiResponse) {
-  const { id, search, page } = req.query;
+  const { id, search, page, searchBy } = req.query;
   // Fix for type issues for now
   if (
     !id ||
     Array.isArray(id) ||
     Array.isArray(search) ||
-    Array.isArray(page)
+    Array.isArray(page) ||
+    Array.isArray(searchBy)
   ) {
     throw new NotFoundError("Track");
   }
@@ -60,7 +61,7 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
     .json(
       await db.search(
         `${Collections.Setlists}/${id}/${Collections.Tracks}`,
-        "name_upper",
+        searchBy ? `${searchBy.toLowerCase()}_upper` : "name_upper",
         search?.toUpperCase() || "",
         parseInt(page || "1")
       )

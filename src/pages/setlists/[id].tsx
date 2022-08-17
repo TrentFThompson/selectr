@@ -79,7 +79,7 @@ const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return await handleSSPError(async () => {
     // Authenticate the user on this page
-    const token = await authenticate(context);
+    await authenticate(context);
 
     // Get the id of the requested album
     const { id } = context.query;
@@ -91,7 +91,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        setlist: await SetlistApi.findOne(id, token),
+        setlist: await SetlistApi.findOne(id),
         tracks: await TracksApi.findAll(id),
       },
     };

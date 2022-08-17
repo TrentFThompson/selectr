@@ -20,13 +20,14 @@ import handleError from "../errors/handleError";
 export default async function findAll(
   setlistId: string,
   search: string = "",
-  page: number = 1
+  page: number = 1,
+  searchBy: string = "name"
 ) {
   return await handleError(async () => {
     const { data } = await axios.get(
       `${apiURL}/setlists/${setlistId}/tracks/search`,
       {
-        params: { search, page },
+        params: { search, page, searchBy },
       }
     );
 

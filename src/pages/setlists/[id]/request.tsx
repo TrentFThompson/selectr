@@ -21,6 +21,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -59,6 +60,17 @@ const Request: NextPage<IProps> = ({ initialResults = [], setlist }) => {
   const [results, setResults] = useState<ITrack[]>(initialResults);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [searchBy, setSearchBy] = useState("name");
+
+  async function _setSearchBy(searchBy: string) {
+    try {
+      setSearchBy(searchBy);
+      setPage(1);
+      setResults(await TracksApi.search(id as string, search, 1, searchBy));
+    } catch {
+      failure("Something went wrong. Try again later.");
+    }
+  }
 
   //
   // Function:    _setSearch
@@ -70,7 +82,7 @@ const Request: NextPage<IProps> = ({ initialResults = [], setlist }) => {
     try {
       setSearch(search);
       setPage(1);
-      setResults(await TracksApi.search(id as string, search, 1));
+      setResults(await TracksApi.search(id as string, search, 1, searchBy));
     } catch {
       failure("Something went wrong. Try again later.");
     }
@@ -85,7 +97,7 @@ const Request: NextPage<IProps> = ({ initialResults = [], setlist }) => {
   async function _setPage(page: number) {
     try {
       setPage(page);
-      setResults(await TracksApi.search(id as string, search, page));
+      setResults(await TracksApi.search(id as string, search, page, searchBy));
     } catch {
       failure("Something went wrong. Try again later.");
     }
@@ -94,7 +106,7 @@ const Request: NextPage<IProps> = ({ initialResults = [], setlist }) => {
   return (
     <>
       <Header />
-      <Flex width={"100%"} justifyContent="center">
+      <Flex width={"100%"} alignItems="center" flexDirection={"column"}>
         <Flex
           maxWidth="625px"
           width={"100%"}
@@ -104,6 +116,7 @@ const Request: NextPage<IProps> = ({ initialResults = [], setlist }) => {
           pl="5px"
           pr={"5px"}
         >
+          <SearchBy value={searchBy} onChange={_setSearchBy} />
           <Search onChange={_setSearch} />
           <Results setlist={setlist} results={results} />
           <Pagination
@@ -117,6 +130,39 @@ const Request: NextPage<IProps> = ({ initialResults = [], setlist }) => {
   );
 };
 
+//
+//  Component:    SearchBy
+//  Description:  Change the search by option for the request page
+//
+function SearchBy({ onChange, value }: { onChange: Function; value: string }) {
+  return (
+    <Flex width={"100%"} maxW="310px" mb="10px" alignSelf={"baseline"}>
+      <Text alignSelf={"center"} pr="0px" width="80px">
+        Sort By:
+      </Text>
+      <Select
+        value={value}
+        onChange={async (e) => await onChange(e.target.value)}
+        pl="0px"
+      >
+        <option id="album" value="album">
+          Album
+        </option>
+        <option id="artist" value="artist">
+          Artist
+        </option>
+        <option id="name" value="name">
+          Song
+        </option>
+      </Select>
+    </Flex>
+  );
+}
+
+//
+//  Component:    RequestModal
+//  Description:  Handles requesting a song in a modal
+//
 function RequestModal({
   track,
   setlist,
@@ -148,8 +194,7 @@ function RequestModal({
           title: track.name,
         });
         success("Thanks for your request!");
-      } catch (error) {
-        console.log(error);
+      } catch {
         failure("Something went wrong. Please try again later.");
       }
 
