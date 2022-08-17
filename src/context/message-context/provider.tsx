@@ -12,10 +12,10 @@ import { useState } from "react";
 import MessageContext from "./initial-context";
 
 // Constants
-const TEN_SECONDS = 10000;
+const TOAST_LENGTH = 3000;
 const DEFAULT_TOAST = {
   isClosable: false,
-  duration: TEN_SECONDS,
+  duration: TOAST_LENGTH,
 };
 
 // Props for message provider
