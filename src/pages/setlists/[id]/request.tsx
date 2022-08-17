@@ -8,11 +8,21 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import {
   Button,
   Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
   Heading,
   IconButton,
   Image,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
@@ -23,17 +33,21 @@ import ITrack from "@/interfaces/Track";
 import TracksApi from "@/api/tracks";
 import handleSSPError from "@/utils/getServerSideProps/handleSSPError";
 import { useMessage } from "@/context/message-context";
+import RequestApi from "@/api/requests";
+import SetlistApi from "@/api/setlists";
+import ISetlist from "@/interfaces/Setlist";
 
 // Props interface
 interface IProps {
   initialResults: ITrack[];
+  setlist: ISetlist;
 }
 
 //
 //  Component:    Request
 //  Description:  Page for users to make requests
 //
-const Request: NextPage<IProps> = ({ initialResults = [] }) => {
+const Request: NextPage<IProps> = ({ initialResults = [], setlist }) => {
   // Hooks
   const router = useRouter();
   const { failure } = useMessage();
@@ -91,7 +105,7 @@ const Request: NextPage<IProps> = ({ initialResults = [] }) => {
           pr={"5px"}
         >
           <Search onChange={_setSearch} />
-          <Results results={results} />
+          <Results setlist={setlist} results={results} />
           <Pagination
             onClick={_setPage}
             page={page}
@@ -102,6 +116,79 @@ const Request: NextPage<IProps> = ({ initialResults = [] }) => {
     </>
   );
 };
+
+function RequestModal({
+  track,
+  setlist,
+}: {
+  track: ITrack;
+  setlist: ISetlist;
+}) {
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  const [name, setName] = useState("");
+  const [error, setError] = useState(false);
+  const { success, failure } = useMessage();
+
+  function _onClose() {
+    setError(false);
+    setName("");
+    onClose();
+  }
+
+  async function onSubmit(name: string) {
+    if (name.length === 0) {
+      setError(true);
+    } else {
+      try {
+        await RequestApi.create({
+          uid: setlist.uid,
+          name,
+          artist: track.artist,
+          album: track.album,
+          title: track.name,
+        });
+        success("Thanks for your request!");
+      } catch (error) {
+        console.log(error);
+        failure("Something went wrong. Please try again later.");
+      }
+
+      setError(false);
+      _onClose();
+    }
+  }
+
+  return (
+    <>
+      <Button bg="brand" color={"white"} onClick={onOpen}>
+        Request
+      </Button>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{`Request ${track.name} by ${track.artist}?`}</ModalHeader>
+          <ModalBody>
+            <FormControl isInvalid={error}>
+              <FormLabel>Please enter your name:</FormLabel>
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+              />
+              <FormErrorMessage>Name is required.</FormErrorMessage>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={() => onSubmit(name)} color="white" bg="brand">
+              Confirm
+            </Button>
+            <Button onClick={_onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 
 // TODO: Break page components into component files
 
@@ -154,7 +241,13 @@ function Search({ onChange }: { onChange: Function }) {
 //  Component:    Results
 //  Description:  Results display for the song request page
 //
-function Results({ results }: { results: ITrack[] }) {
+function Results({
+  results,
+  setlist,
+}: {
+  results: ITrack[];
+  setlist: ISetlist;
+}) {
   return (
     <Flex
       flexDirection={"column"}
@@ -163,7 +256,7 @@ function Results({ results }: { results: ITrack[] }) {
       pt={"10px"}
     >
       {results.map((r: ITrack) => (
-        <Result key={r.id} result={r} />
+        <Result key={r.id} result={r} setlist={setlist} />
       ))}
     </Flex>
   );
@@ -173,7 +266,7 @@ function Results({ results }: { results: ITrack[] }) {
 //  Component:    Result
 //  Description:  Individual result display for the song request page
 //
-function Result({ result }: { result: ITrack }) {
+function Result({ result, setlist }: { result: ITrack; setlist: ISetlist }) {
   return (
     <Flex
       boxShadow={"md"}
@@ -218,9 +311,7 @@ function Result({ result }: { result: ITrack }) {
         alignSelf={"end"}
         ml="10px"
       >
-        <Button textColor={"white"} bgColor={"brand"}>
-          Request
-        </Button>
+        <RequestModal setlist={setlist} track={result} />
       </Flex>
     </Flex>
   );
@@ -271,6 +362,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return {
       props: {
         initialResults: await TracksApi.search(id),
+        setlist: await SetlistApi.findOne(id),
       },
     };
   });
