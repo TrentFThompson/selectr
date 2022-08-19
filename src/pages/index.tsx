@@ -30,6 +30,7 @@ const Home: NextPage = () => {
             <Text
               textAlign={"center"}
               m="10px"
+              key={r.id}
             >{`${r.name} has requested: ${r.artist} - ${r.album} - ${r.title}`}</Text>
           );
         })}
