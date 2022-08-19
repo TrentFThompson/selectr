@@ -76,14 +76,14 @@ export default function LoginForm() {
               <Input name="password" type={"password"} placeholder="password" />
             </FormControl>
             <Center pt="4" pb="4">
-              <Button type="submit" bg={"green"} width="100%">
+              <Button type="submit" bg={"brand"} color="white" width="100%">
                 Login
               </Button>
             </Center>
           </form>
           <Link href={"/signup"}>
             <a>
-              <Text color={"blue"}>
+              <Text as="u" color={"black"}>
                 Don&apos;t have an account? Click here to sign up.
               </Text>
             </a>

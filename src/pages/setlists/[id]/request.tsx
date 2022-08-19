@@ -338,10 +338,15 @@ function Result({ result, setlist }: { result: ITrack; setlist: ISetlist }) {
           flexDirection={"column"}
           pt={["5px", "10px"]}
         >
-          <Text fontSize={[11, 13, 15]}>
+          <Text flexWrap={"nowrap"} noOfLines={1} fontSize={[11, 13, 15]}>
             {result.artist} - {result.name}
           </Text>
-          <Text opacity={"70%"} pt={"5px"} fontSize={[11, 13, 15]}>
+          <Text
+            opacity={"70%"}
+            noOfLines={1}
+            pt={"5px"}
+            fontSize={[11, 13, 15]}
+          >
             {result.album}
           </Text>
         </Flex>

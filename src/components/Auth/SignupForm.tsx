@@ -87,7 +87,9 @@ function Success() {
       <Text pb="4">Your account has been created!</Text>
       <Link href={"/login"}>
         <a>
-          <Text color={"blue"}>Click here to log in.</Text>
+          <Text as="u" color={"black"}>
+            Click here to log in.
+          </Text>
         </a>
       </Link>
     </Center>
@@ -129,14 +131,14 @@ function Form({ onSubmit }: { onSubmit: (e: SyntheticEvent) => void }) {
             />
           </FormControl>
           <Center pt="4" pb="4">
-            <Button type="submit" bg={"green"} width="100%">
+            <Button type="submit" color={"white"} bg={"brand"} width="100%">
               Sign Up
             </Button>
           </Center>
         </form>
         <Link href={"/login"}>
           <a>
-            <Text color={"blue"}>
+            <Text as="u" color={"black"}>
               Already have an account? Click here to login.
             </Text>
           </a>
