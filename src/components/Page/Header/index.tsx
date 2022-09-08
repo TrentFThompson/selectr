@@ -33,19 +33,22 @@ export default function Header() {
 
   return (
     <Flex
-      justifyContent={"space-between"}
       p={"25px"}
-      position={"relative"}
-      bgColor={"gray"}
+      bgColor={"brand"}
       w="full"
-      h="125px"
+      height="100px"
+      alignItems={"center"}
     >
-      <Flex h="100%" width={"50%"}>
-        <Links />
-      </Flex>
-      <Flex justifyContent={"space-around"} h="100%" width="15%">
-        <NotificationBell />
-        <Button onClick={onClick}>Logout</Button>
+      <Flex width="100%" justifyContent="space-between">
+        <Flex width={"40%"}>
+          <Links />
+        </Flex>
+        <Flex width={"15%"} alignItems="end" justifyContent="space-around">
+          <NotificationBell />
+          <Button bg={"white"} onClick={onClick}>
+            Logout
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   );
@@ -53,7 +56,12 @@ export default function Header() {
 
 function Links() {
   return (
-    <Flex width={"100%"} flexDirection={"row"} justify="space-around">
+    <Flex
+      color={"white"}
+      width={"100%"}
+      flexDirection={"row"}
+      justify="space-around"
+    >
       <Link href={"/"}>
         <a>
           <Heading>Selectr</Heading>
@@ -62,12 +70,12 @@ function Links() {
       <Flex width={"100%"} pt="4" justify={"space-around"}>
         <Link href={"/albums"}>
           <a>
-            <Text>Albums</Text>
+            <Text as="u">Albums</Text>
           </a>
         </Link>
         <Link href={"/setlists"}>
           <a>
-            <Text>Setlists</Text>
+            <Text as="u">Setlists</Text>
           </a>
         </Link>
       </Flex>

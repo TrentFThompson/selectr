@@ -53,7 +53,7 @@ const ID: NextPage<IProps> = ({ album, setlists }: IProps) => {
   return (
     <>
       <Header />
-      <Heading>{`${album.artist} - ${album.name}`}</Heading>
+      <Heading pt={"10"}>{`${album.artist} - ${album.name}`}</Heading>
       <AddToSetlist<string>
         onSubmit={onSubmit}
         setlists={setlists}

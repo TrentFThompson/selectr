@@ -55,7 +55,7 @@ const ID: NextPage<IProps> = ({ setlist, tracks }: IProps) => {
   return (
     <>
       <Header />
-      <Center flexDirection={"column"}>
+      <Center pt="10" flexDirection={"column"}>
         <Heading>{setlist.name}</Heading>
         <Flex flexDirection={"column"}>
           {trackState.map((t) => (

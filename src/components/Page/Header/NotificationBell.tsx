@@ -36,7 +36,7 @@ export default function NotificationBell() {
           left={"30px"}
           position={"absolute"}
           size="20px"
-          bg={"red"}
+          bg={"white"}
         >
           <Text>{unreadRequests}</Text>
         </Circle>
@@ -58,7 +58,12 @@ function NotificationMenu({
 }) {
   return (
     <Menu onOpen={() => onClick()}>
-      <MenuButton as={IconButton} aria-label="Options" icon={<BellIcon />} />
+      <MenuButton
+        bg={"white"}
+        as={IconButton}
+        aria-label="Options"
+        icon={<BellIcon />}
+      />
       <MenuList>
         {requests && requests.length > 0 ? (
           requests.map((r) => {
